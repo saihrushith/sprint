@@ -259,15 +259,6 @@ svg { width: 1em; height: 1em; flex: none; }
 .hud__v { color: var(--ink-200); }
 .hud--tl { left: 6%; top: 8%; }
 .hud--br { right: 2%; bottom: 10%; text-align: right; padding-left: 0; padding-right: 12px; border-left: 0; border-right: 1px solid var(--o); }
-.stamp-circle {
-  position: absolute; right: 8%; top: 38%; width: 112px; height: 112px; border-radius: 50%;
-  display: grid; place-items: center; pointer-events: auto;
-}
-.stamp-circle > svg { position: absolute; inset: 0; width: 100%; height: 100%; animation: spin 18s linear infinite; }
-.stamp-circle text { font: 600 9.6px var(--f-m); letter-spacing: .22em; text-transform: uppercase; fill: var(--ink-200); }
-.stamp-circle > span { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; background: var(--o); color: #fff; box-shadow: 0 10px 30px -8px var(--o-glow); transition: transform .4s var(--ease-out); }
-.stamp-circle:hover > span { transform: rotate(45deg) scale(1.08); }
-.stamp-circle > span svg { width: 20px; height: 20px; }
 
 .scroll-hint { position: absolute; left: var(--gutter); bottom: 22px; z-index: 2; display: none; align-items: center; gap: 10px; font: 500 10px var(--f-m); letter-spacing: .22em; text-transform: uppercase; color: var(--ink-300); }
 .scroll-hint i { width: 1px; height: 34px; background: linear-gradient(var(--o), transparent); animation: drip 1.8s var(--ease-io) infinite; transform-origin: top; }
