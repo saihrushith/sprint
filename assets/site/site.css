@@ -547,7 +547,6 @@ svg { width: 1em; height: 1em; flex: none; }
   .hero__grid { grid-template-columns: 1fr; gap: 0; padding-top: 10px; }
   .hero__visual { min-height: 0; height: min(88vw, 560px); margin-top: -10px; }
   .hud--tl { left: 0; top: 4%; }
-  .stamp-circle { right: 0; top: 4%; width: 96px; height: 96px; }
   .about__grid, .services__grid, .contact__grid, .cta__grid { grid-template-columns: 1fr; }
   .about__visual { max-width: 620px; }
   .showcase { display: none; }
