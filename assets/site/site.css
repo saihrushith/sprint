@@ -136,7 +136,7 @@ svg { width: 1em; height: 1em; flex: none; }
 .btn--ghost:hover { border-color: rgba(255, 255, 255, .5); background: rgba(255, 255, 255, .06); }
 .btn--ghost:hover .ic { transform: translate(2px, -2px); }
 .btn--dark { background: var(--bg-3); color: #fff; padding-right: 26px; }
-.btn--dark:hover { background: var(--o); color: var(--bg-2); box-shadow: 0 16px 36px -14px rgba(11, 37, 69, .5); }
+.btn--dark:hover { background: var(--o); color: var(--bg-2); box-shadow: 0 16px 36px -14px rgba(0, 0, 0, .35); }
 .btn--dark:hover .btn__ic { transform: translateX(4px); }
 .btn--ghost-dark { border: 1.5px solid rgba(11, 37, 69, .18); color: var(--navy-text); --h: 48px; }
 .btn--ghost-dark:hover { background: var(--navy-text); color: #fff; }
@@ -205,8 +205,8 @@ svg { width: 1em; height: 1em; flex: none; }
 .split .wi { display: inline-block; will-change: transform; }
 
 .eyebrow { display: inline-flex; align-items: center; gap: 10px; font: 500 12px/1.3 var(--f-m); letter-spacing: .18em; text-transform: uppercase; color: var(--ink-200); }
-.dot { width: 7px; height: 7px; border-radius: 50%; background: var(--o); box-shadow: 0 0 0 0 var(--o-glow); animation: pulse 2.2s infinite; }
-@keyframes pulse { 0% { box-shadow: 0 0 0 0 var(--o-glow); } 70% { box-shadow: 0 0 0 10px rgba(249, 109, 31, 0); } 100% { box-shadow: 0 0 0 0 rgba(249, 109, 31, 0); } }
+.dot { width: 7px; height: 7px; border-radius: 50%; background: var(--o); animation: blink 2.2s ease-in-out infinite; }
+@keyframes blink { 50% { opacity: .35; } }
 
 /* anchors are invisible layout slots that the WebGL scene tracks */
 .anchor { pointer-events: none; }
@@ -347,12 +347,12 @@ svg { width: 1em; height: 1em; flex: none; }
   transition: border-color .25s, box-shadow .25s, background-color .25s;
 }
 .fld textarea { height: auto; min-height: 92px; padding: 12px 14px; resize: vertical; line-height: 1.5; }
-.fld input::placeholder, .fld textarea::placeholder { color: #667b97; }
+.fld input::placeholder, .fld textarea::placeholder { color: #586d8a; }
 .fld input:hover, .fld select:hover, .fld textarea:hover { border-color: #c4d2e1; }
 .fld input:focus, .fld select:focus, .fld textarea:focus { border-color: var(--o); background: #fff; box-shadow: 0 0 0 4px rgba(249, 109, 31, .14); }
 .fld.is-invalid input, .fld.is-invalid select { border-color: #e5484d; box-shadow: 0 0 0 4px rgba(229, 72, 77, .1); }
 .fld--select select { padding-right: 40px; cursor: pointer; }
-.fld--select select:invalid { color: #667b97; }
+.fld--select select:invalid { color: #586d8a; }
 .sel-ic { position: absolute; right: 14px; bottom: 15px; width: 16px; height: 16px; color: #5b7393; pointer-events: none; }
 
 /* ---------- ABOUT ---------- */
