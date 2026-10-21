@@ -205,8 +205,7 @@ svg { width: 1em; height: 1em; flex: none; }
 .split .wi { display: inline-block; will-change: transform; }
 
 .eyebrow { display: inline-flex; align-items: center; gap: 10px; font: 500 12px/1.3 var(--f-m); letter-spacing: .18em; text-transform: uppercase; color: var(--ink-200); }
-.dot { width: 7px; height: 7px; border-radius: 50%; background: var(--o); animation: blink 2.2s ease-in-out infinite; }
-@keyframes blink { 50% { opacity: .35; } }
+.dot { width: 7px; height: 7px; border-radius: 50%; background: var(--o); }
 
 /* anchors are invisible layout slots that the WebGL scene tracks */
 .anchor { pointer-events: none; }
@@ -457,8 +456,7 @@ svg { width: 1em; height: 1em; flex: none; }
 .cta__title { font: 700 clamp(48px, 7vw, 116px)/.9 var(--f-d); letter-spacing: -.045em; color: #fff; }
 .cta__lede { max-width: 520px; font-size: clamp(16px, 1.3vw, 19px); color: var(--muted); }
 .cta__note { display: inline-flex; align-items: center; gap: 10px; font-size: 10.5px; }
-.live { width: 8px; height: 8px; border-radius: 50%; background: #3ddc84; box-shadow: 0 0 0 4px rgba(61, 220, 132, .15); animation: pulse-g 2s infinite; }
-@keyframes pulse-g { 50% { box-shadow: 0 0 0 7px rgba(61, 220, 132, 0); } }
+.live { width: 8px; height: 8px; border-radius: 50%; background: #3ddc84; box-shadow: 0 0 0 4px rgba(61, 220, 132, .15); }
 .cta__visual { position: relative; aspect-ratio: 1; }
 
 /* ---------- CONTACT ---------- */
