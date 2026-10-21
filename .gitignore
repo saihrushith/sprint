@@ -1,0 +1,7 @@
+# local tooling
+.claude/
+# leftover files from an unrelated site (Leadboosters), not used by this page
+css/
+js/
+images/
+.impeccable/
