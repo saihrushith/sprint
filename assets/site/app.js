@@ -1,201 +1,89 @@
 /* ==========================================================================
-   SPRINT OVERSEAS — interaction layer
-   Smooth scroll, reveals, routes, process progress, lead forms.
-   Shares state with the WebGL scene through window.SO.
+   SPRINT OVERSEAS — interaction layer (no dependencies)
+   Reveals, nav, process flight path, waving flag, lead forms.
+   Everything is progressive: the page is complete without this file.
    ========================================================================== */
 (function () {
   'use strict';
 
   var FORM_ENDPOINT = 'https://formsubmit.co/ajax/suma@sprintoverseas.com';
+  var SVGNS = 'http://www.w3.org/2000/svg';
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
   var clamp = function (v, a, b) { return Math.min(b, Math.max(a, v)); };
 
-  var SO = window.SO = window.SO || {};
-  SO.reduced = reduced;
-  SO.route = 0;
-  SO.processP = 0;
-  SO.velocity = 0;
-  SO.pointer = { x: 0, y: 0 };
-  SO.frameHooks = SO.frameHooks || [];
+  /* ---------- Intro + reveals ---------- */
+  // the inline head script drops the hidden-until-revealed state if this file never runs
+  window.SO_READY = true;
+  var heroArt = $('.hero__art');
+  setTimeout(function () {
+    document.body.classList.add('is-ready');
+    $$('.hero .rv').forEach(function (el, i) { el.style.transitionDelay = (250 + i * 90) + 'ms'; el.classList.add('is-in'); });
+    setTimeout(function () { heroArt.classList.add('is-in'); }, 350);
+  }, 40);
 
-  /* ---------- Loader ---------- */
-  var loader = $('#loader'), bar = $('#loader-bar'), pct = $('#loader-pct');
-  var shown = 0, target = 12, loaded = false, started = performance.now();
-  SO.setLoad = function (v) { target = Math.max(target, v); };
-  function loaderTick() {
-    if (loaded) return;
-    var elapsed = performance.now() - started;
-    var t = Math.min(target, 96, 30 + elapsed / 40);
-    shown += (t - shown) * .12;
-    bar.style.width = shown.toFixed(1) + '%';
-    pct.textContent = String(Math.round(shown)).padStart(3, '0');
-    if ((target >= 100 && elapsed > 650) || elapsed > 4200) return finishLoad();
-    requestAnimationFrame(loaderTick);
-  }
-  function finishLoad() {
-    if (loaded) return;
-    loaded = true;
-    bar.style.width = '100%';
-    pct.textContent = '100';
-    setTimeout(function () {
-      loader.classList.add('is-done');
-      document.body.classList.add('is-loaded');
-      $$('.hero .reveal-up').forEach(function (el, i) {
-        setTimeout(function () { el.classList.add('is-in'); }, 420 + i * 110);
-      });
-    }, 220);
-  }
-  window.addEventListener('so:scene-ready', function () { SO.setLoad(100); });
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { SO.setLoad(60); });
-  requestAnimationFrame(loaderTick);
+  var revealIO = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (!en.isIntersecting) return;
+      var el = en.target, sibs = $$(':scope > .rv', el.parentElement);
+      el.style.transitionDelay = Math.min(sibs.indexOf(el), 5) * 70 + 'ms';
+      el.classList.add('is-in');
+      revealIO.unobserve(el);
+    });
+  }, { rootMargin: '0px 0px -10% 0px' });
+  $$('.rv').forEach(function (el) { if (!el.closest('.hero') || el.closest('#eligibility')) revealIO.observe(el); });
 
-  /* ---------- Smooth scroll ---------- */
-  var lenis = null;
-  var hasGsap = typeof window.gsap !== 'undefined';
-  if (hasGsap && window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
-  if (!reduced && typeof window.Lenis !== 'undefined') {
-    lenis = new Lenis({ lerp: .09, smoothWheel: true, wheelMultiplier: .95, touchMultiplier: 1.4 });
-    SO.lenis = lenis;
-    if (hasGsap) {
-      lenis.on('scroll', function () { if (window.ScrollTrigger) ScrollTrigger.update(); });
-      gsap.ticker.add(function (t) { lenis.raf(t * 1000); });
-      gsap.ticker.lagSmoothing(0);
-    } else {
-      (function raf(t) { lenis.raf(t); requestAnimationFrame(raf); })(0);
-    }
-  }
-  // one frame clock for everything that reads scroll (keeps WebGL glued to DOM)
-  function frame() {
-    SO.velocity = lenis ? lenis.velocity : 0;
-    for (var i = 0; i < SO.frameHooks.length; i++) SO.frameHooks[i]();
-  }
-  if (hasGsap) gsap.ticker.add(frame);
-  else (function raf() { frame(); requestAnimationFrame(raf); })();
+  /* ---------- Count-up ---------- */
+  var countIO = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (!en.isIntersecting) return;
+      var el = en.target, to = +el.getAttribute('data-count'), t0 = performance.now();
+      countIO.unobserve(el);
+      if (reduced) return;
+      (function tick(now) {
+        var k = clamp((now - t0) / 1200, 0, 1);
+        el.textContent = Math.round(to * (1 - Math.pow(1 - k, 3)));
+        if (k < 1) requestAnimationFrame(tick);
+      })(t0);
+    });
+  }, { threshold: .6 });
+  $$('[data-count]').forEach(function (el) { countIO.observe(el); });
 
-  function navOffset() { return -(window.innerWidth < 761 ? 64 : 70) - 10; }
-  function scrollToTarget(el) {
-    if (!el) return;
-    var off = el.id === 'eligibility' ? -90 : (el.id === 'home' ? 0 : navOffset());
-    if (lenis) lenis.scrollTo(el, { offset: off, duration: 1.6, easing: function (t) { return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; } });
-    else window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY + off, behavior: reduced ? 'auto' : 'smooth' });
-  }
-  document.addEventListener('click', function (e) {
-    var a = e.target.closest('a[href^="#"]');
-    if (!a) return;
-    var id = a.getAttribute('href');
-    if (id.length < 2) return;
-    var el = document.getElementById(id.slice(1));
-    if (!el) return;
-    e.preventDefault();
-    closeMenu();
-    scrollToTarget(el);
-    if (id === '#eligibility') setTimeout(function () { var f = $('#elig-form input[name="name"]'); f && f.focus({ preventScroll: true }); }, 1300);
-  });
-
-  /* ---------- Nav ---------- */
-  var nav = $('#nav'), mbar = $('#mbar'), fab = $('.fab'), hero = $('#home'), elig = $('#eligibility');
+  /* ---------- Nav, menu, floating actions ---------- */
+  var nav = $('#nav'), mbar = $('#mbar'), fab = $('.fab'), elig = $('#eligibility'), contact = $('#contact');
+  var navLinks = $$('[data-nav]');
   function onScroll() {
-    var y = window.scrollY;
-    nav.classList.toggle('is-scrolled', y > 24);
+    nav.classList.toggle('is-scrolled', window.scrollY > 40);
     var past = elig.getBoundingClientRect().bottom < 0;
-    var atContact = $('#contact').getBoundingClientRect().top < window.innerHeight * .6;
-    mbar.classList.toggle('is-on', past && !atContact);
+    mbar.classList.toggle('is-on', past && contact.getBoundingClientRect().top > window.innerHeight * .6);
     fab.classList.toggle('is-on', past);
   }
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  var navLinks = $$('[data-nav]');
   var sectionIO = new IntersectionObserver(function (entries) {
     entries.forEach(function (en) {
       if (!en.isIntersecting) return;
-      var id = '#' + en.target.id;
-      navLinks.forEach(function (l) { l.classList.toggle('is-active', l.getAttribute('href') === id); });
+      navLinks.forEach(function (l) { l.classList.toggle('is-active', l.getAttribute('href') === '#' + en.target.id); });
     });
   }, { rootMargin: '-45% 0px -50% 0px' });
-  ['home', 'about', 'services', 'process', 'contact'].forEach(function (id) { sectionIO.observe(document.getElementById(id)); });
+  ['home', 'services', 'about', 'process', 'faq', 'contact'].forEach(function (id) { sectionIO.observe(document.getElementById(id)); });
 
   var burger = $('#burger'), menu = $('#menu');
-  function closeMenu() {
-    document.documentElement.classList.remove('menu-open');
-    burger.setAttribute('aria-expanded', 'false');
-    menu.setAttribute('aria-hidden', 'true');
-    if (lenis) lenis.start();
-  }
-  burger.addEventListener('click', function () {
-    var open = !document.documentElement.classList.contains('menu-open');
+  function setMenu(open) {
     document.documentElement.classList.toggle('menu-open', open);
     burger.setAttribute('aria-expanded', String(open));
-    menu.setAttribute('aria-hidden', String(!open));
-    if (lenis) open ? lenis.stop() : lenis.start();
-  });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMenu(); });
-
-  /* ---------- Split headings + reveals ---------- */
-  $$('.split').forEach(function (h) {
-    var i = 0;
-    (function walk(node) {
-      Array.prototype.slice.call(node.childNodes).forEach(function (n) {
-        if (n.nodeType === 3) {
-          var frag = document.createDocumentFragment();
-          n.textContent.split(/(\s+)/).forEach(function (part) {
-            if (!part) return;
-            if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(' ')); return; }
-            var w = document.createElement('span'); w.className = 'w';
-            var wi = document.createElement('span'); wi.className = 'wi'; wi.style.setProperty('--i', i++);
-            wi.textContent = part; w.appendChild(wi); frag.appendChild(w);
-          });
-          node.replaceChild(frag, n);
-        } else if (n.nodeType === 1) walk(n);
-      });
-    })(h);
-  });
-  var revealIO = new IntersectionObserver(function (entries) {
-    entries.forEach(function (en) {
-      if (en.isIntersecting) { en.target.classList.add('is-in'); revealIO.unobserve(en.target); }
-    });
-  }, { rootMargin: '0px 0px -12% 0px' });
-  $$('.split, .reveal-up').forEach(function (el) { if (!el.closest('.hero')) revealIO.observe(el); });
-
-  /* ---------- Scroll-linked decoration ---------- */
-  if (hasGsap && window.ScrollTrigger && !reduced) {
-    gsap.to('.hero__bgword', { yPercent: -30, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
-    gsap.fromTo('.cta__bgword', { xPercent: 8 }, { xPercent: -8, ease: 'none', scrollTrigger: { trigger: '.cta', start: 'top bottom', end: 'bottom top', scrub: true } });
-    gsap.fromTo('.foot__giant p', { yPercent: 40 }, { yPercent: 18, ease: 'none', scrollTrigger: { trigger: '.foot', start: 'top bottom', end: 'bottom bottom', scrub: true } });
-    gsap.fromTo('.ph--back', { yPercent: 6 }, { yPercent: -6, ease: 'none', scrollTrigger: { trigger: '.about', start: 'top bottom', end: 'bottom top', scrub: true } });
-    gsap.fromTo('.ph--front', { yPercent: -4 }, { yPercent: 10, ease: 'none', scrollTrigger: { trigger: '.about', start: 'top bottom', end: 'bottom top', scrub: true } });
-    gsap.fromTo('.ribbon__band--a', { rotate: -4 }, { rotate: -1, ease: 'none', scrollTrigger: { trigger: '.ribbon', start: 'top bottom', end: 'bottom top', scrub: true } });
-    gsap.fromTo('.ribbon__band--b', { rotate: 4 }, { rotate: 1.2, ease: 'none', scrollTrigger: { trigger: '.ribbon', start: 'top bottom', end: 'bottom top', scrub: true } });
+    burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    menu.hidden = !open;
+    document.body.style.overflow = open ? 'hidden' : '';
   }
+  burger.addEventListener('click', function () { setMenu(menu.hidden); });
+  menu.addEventListener('click', function (e) { if (e.target.closest('a')) setMenu(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !menu.hidden) { setMenu(false); burger.focus(); } });
 
-  /* ---------- Services: routes ---------- */
-  var routes = $$('.route');
-  var scIx = $('#sc-ix'), scTag = $('#sc-tag'), scTitle = $('#sc-title'), scDots = $$('.frame__dots i');
-  function openRoute(i, fromHover) {
-    routes.forEach(function (r, k) {
-      var on = k === i;
-      r.classList.toggle('is-open', on);
-      $('.route__btn', r).setAttribute('aria-expanded', String(on));
-    });
-    SO.route = i;
-    var r = routes[i];
-    scIx.textContent = '0' + (i + 1);
-    scTag.textContent = $('.route__tag', r).textContent;
-    scTitle.textContent = $('.route__t', r).textContent;
-    scDots.forEach(function (d, k) { d.classList.toggle('on', k === i); });
-    if (!fromHover && lenis) setTimeout(function () { lenis.resize(); }, 750);
-  }
-  routes.forEach(function (r, i) {
-    var btn = $('.route__btn', r);
-    btn.addEventListener('click', function () {
-      var isOpen = r.classList.contains('is-open');
-      if (isOpen && !finePointer) { r.classList.remove('is-open'); btn.setAttribute('aria-expanded', 'false'); return; }
-      openRoute(i);
-    });
-    if (finePointer) r.addEventListener('mouseenter', function () { if (!r.classList.contains('is-open')) openRoute(i, true); });
+  $$('a[href="#eligibility"]').forEach(function (a) {
+    a.addEventListener('click', function () { setTimeout(function () { $('#elig-form input[name="name"]').focus({ preventScroll: true }); }, 700); });
   });
   $$('[data-route-pick]').forEach(function (a) {
     a.addEventListener('click', function () {
@@ -205,57 +93,127 @@
     });
   });
 
-  /* ---------- Process progress ---------- */
-  var stage = $('.frame--process'), steps = $$('.step'), tabs = $$('#ptabs span'), rail = $('#prail'), psIx = $('#ps-ix'), psK = $('#ps-k');
-  var lastStep = -1;
-  SO.frameHooks.push(function () {
-    var vh = window.innerHeight;
-    var first = steps[0].getBoundingClientRect(), last = steps[steps.length - 1].getBoundingClientRect();
-    var a = first.top + first.height / 2, b = last.top + last.height / 2, c = vh * (window.innerWidth < 1081 ? .68 : .5);
-    var p = clamp((c - a) / (b - a), 0, 1) * (steps.length - 1);
-    SO.processP = p;
-    rail.style.transform = 'scaleX(' + (p / (steps.length - 1)).toFixed(4) + ')';
-    var s = Math.round(p);
-    if (window.innerWidth < 1081) {
-      // steps scroll beneath the sticky stage on small screens: fade them out before they reach it
-      var edge = stage.getBoundingClientRect().bottom;
-      steps.forEach(function (el, k) {
-        var top = el.firstElementChild.getBoundingClientRect().top;
-        el.style.opacity = (clamp((top - edge + 10) / 60, 0, 1) * (k === s ? 1 : .4)).toFixed(3);
-      });
-    } else if (steps[0].style.opacity) steps.forEach(function (el) { el.style.opacity = ''; });
-    if (s !== lastStep) {
-      lastStep = s;
-      steps.forEach(function (el, k) { el.classList.toggle('is-active', k === s); });
-      tabs.forEach(function (el, k) { el.classList.toggle('on', k <= s); });
-      psIx.textContent = '0' + (s + 1);
-      psK.textContent = $('.mono', steps[s]).textContent;
+  /* ---------- Process: a plane flies the path through the five steps ---------- */
+  var flight = $('#flight'), fBase = $('.flight__base'), fDone = $('.flight__done'), fJet = $('.flight__jet');
+  var stepEls = $$('.step'), fLen = 0;
+  function buildFlight() {
+    var box = flight.getBoundingClientRect();
+    var pts = stepEls.map(function (s) {
+      var r = $('.step__dot', s).getBoundingClientRect();
+      return { x: r.left + r.width / 2 - box.left, y: r.top + r.height / 2 - box.top };
+    });
+    var d = 'M' + pts[0].x + ' ' + pts[0].y;
+    for (var i = 1; i < pts.length; i++) {
+      var a = pts[i - 1], b = pts[i], w = (i % 2 ? -1 : 1) * 26;
+      d += Math.abs(b.x - a.x) > Math.abs(b.y - a.y)
+        ? ' C' + (a.x + (b.x - a.x) / 2) + ' ' + (a.y + w) + ' ' + (a.x + (b.x - a.x) / 2) + ' ' + (b.y + w) + ' ' + b.x + ' ' + b.y
+        : ' C' + (a.x + w) + ' ' + (a.y + (b.y - a.y) / 2) + ' ' + (b.x + w) + ' ' + (a.y + (b.y - a.y) / 2) + ' ' + b.x + ' ' + b.y;
     }
-  });
-
-  /* ---------- Pointer: magnetic, tilt, scene parallax ---------- */
-  window.addEventListener('pointermove', function (e) {
-    SO.pointer.x = (e.clientX / window.innerWidth) * 2 - 1;
-    SO.pointer.y = -((e.clientY / window.innerHeight) * 2 - 1);
-  }, { passive: true });
-  if (finePointer && !reduced) {
-    $$('.magnetic').forEach(function (el) {
-      el.addEventListener('pointermove', function (e) {
-        var r = el.getBoundingClientRect();
-        var x = (e.clientX - r.left - r.width / 2) * .22, y = (e.clientY - r.top - r.height / 2) * .3;
-        el.style.transform = 'translate(' + x + 'px,' + y + 'px)';
-      });
-      el.addEventListener('pointerleave', function () { el.style.transform = ''; });
-    });
-    var vis = $('.about__visual');
-    vis.addEventListener('pointermove', function (e) {
-      var r = vis.getBoundingClientRect();
-      var x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
-      $('.ph--back', vis).style.transform = 'rotateY(' + (-8 + x * 10) + 'deg) rotateX(' + (3 - y * 8) + 'deg)';
-      $('.ph--front', vis).style.transform = 'rotateY(' + (6 + x * 12) + 'deg) rotateX(' + (-y * 10) + 'deg) translateZ(40px)';
-    });
-    vis.addEventListener('pointerleave', function () { $$('.ph', vis).forEach(function (p) { p.style.transform = ''; }); });
+    fBase.setAttribute('d', d);
+    fDone.setAttribute('d', d);
+    fLen = fDone.getTotalLength();
+    fDone.style.strokeDasharray = fLen;
+    updateFlight();
   }
+  function updateFlight() {
+    if (!fLen) return;
+    var r = flight.getBoundingClientRect(), vh = window.innerHeight;
+    var horizontal = window.innerWidth > 1024;
+    var p = reduced ? 1 : clamp((vh * .8 - r.top) / (horizontal ? vh * .45 : r.height), 0, 1);
+    fDone.style.strokeDashoffset = fLen * (1 - p);
+    var at = fLen * p, pt = fDone.getPointAtLength(at), nx = fDone.getPointAtLength(Math.min(fLen, at + 1)), pv = fDone.getPointAtLength(Math.max(0, at - 1));
+    var ang = Math.atan2(nx.y - pv.y, nx.x - pv.x) * 180 / Math.PI + 90;
+    fJet.setAttribute('transform', 'translate(' + pt.x + ' ' + pt.y + ') rotate(' + ang + ')');
+    var n = stepEls.length - 1;
+    stepEls.forEach(function (s, i) { s.classList.toggle('is-on', p >= i / n - .02); });
+  }
+
+  /* ---------- Waving flag (final CTA) ---------- */
+  var flag = $('#flag'), flagParts = null, flagOn = false, flagT = 0;
+  var FX = 34, FY = 26, FW = 330, FH = 174, COLS = 28, STRIPE = FH / 13, CW = FW * .4, CH = STRIPE * 7;
+  function el(tag, attrs) { var e = document.createElementNS(SVGNS, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); flag.appendChild(e); return e; }
+  function buildFlag() {
+    el('rect', { x: FX - 10, y: FY - 8, width: 5, height: 214, rx: 2.5, fill: '#c9d6e8' });
+    el('circle', { cx: FX - 7.5, cy: FY - 12, r: 6, fill: '#e3c27a' });
+    var stripes = [];
+    for (var i = 0; i < 13; i++) stripes.push(el('path', { fill: i % 2 ? '#ffffff' : '#b31942' }));
+    var canton = el('path', { fill: '#0a3161' });
+    var stars = [];
+    for (var row = 0; row < 9; row++) {
+      var count = row % 2 ? 5 : 6;
+      for (var c = 0; c < count; c++) {
+        var u = (row % 2 ? (c + 1) : (c + .5)) / 6, v = (row + 1) / 10;
+        stars.push({ u: u * CW, v: v * CH, node: el('circle', { r: 2.6, fill: '#fff' }) });
+      }
+    }
+    var shades = [];
+    for (var s = 0; s < COLS; s++) shades.push(el('path', {}));
+    flagParts = { stripes: stripes, canton: canton, stars: stars, shades: shades };
+    drawFlag(0);
+  }
+  // vertical offset of the cloth at horizontal distance x from the pole
+  function wave(x, t) { var k = x / FW; return Math.sin(x * .028 - t * 2.4) * 9 * k + Math.sin(x * .011 - t * 1.3) * 4 * k; }
+  function drawFlag(t) {
+    var xs = [], i, s;
+    for (i = 0; i <= COLS; i++) xs.push(i * FW / COLS);
+    var off = xs.map(function (x) { return wave(x, t); });
+    function band(y0, y1, upTo) {
+      var d = '', n = 0;
+      for (i = 0; i <= COLS && xs[i] <= upTo + .01; i++, n++) d += (i ? 'L' : 'M') + (FX + xs[i]).toFixed(1) + ' ' + (FY + y0 + off[i]).toFixed(1);
+      for (i = n - 1; i >= 0; i--) d += 'L' + (FX + xs[i]).toFixed(1) + ' ' + (FY + y1 + off[i]).toFixed(1);
+      return d + 'Z';
+    }
+    flagParts.stripes.forEach(function (p, k) { p.setAttribute('d', band(k * STRIPE, (k + 1) * STRIPE + .4, FW)); });
+    flagParts.canton.setAttribute('d', band(0, CH, Math.ceil(CW / (FW / COLS)) * FW / COLS));
+    flagParts.stars.forEach(function (st) { st.node.setAttribute('cx', FX + st.u); st.node.setAttribute('cy', FY + st.v + wave(st.u, t)); });
+    for (s = 0; s < COLS; s++) {
+      var slope = off[s + 1] - off[s], a = clamp(slope * .07, -.22, .22);
+      var p = flagParts.shades[s];
+      p.setAttribute('d', 'M' + (FX + xs[s]) + ' ' + (FY + off[s]) + 'L' + (FX + xs[s + 1] + .3) + ' ' + (FY + off[s + 1]) + 'L' + (FX + xs[s + 1] + .3) + ' ' + (FY + FH + off[s + 1]) + 'L' + (FX + xs[s]) + ' ' + (FY + FH + off[s]) + 'Z');
+      p.setAttribute('fill', a > 0 ? '#000' : '#fff');
+      p.setAttribute('fill-opacity', Math.abs(a).toFixed(3));
+    }
+  }
+  if (flag) {
+    buildFlag();
+    if (!reduced) {
+      var last = 0;
+      var loop = function (now) {
+        if (!flagOn) return;
+        flagT += last ? Math.min(.05, (now - last) / 1000) : 0;
+        last = now;
+        drawFlag(flagT);
+        requestAnimationFrame(loop);
+      };
+      new IntersectionObserver(function (en) {
+        var was = flagOn;
+        flagOn = en[0].isIntersecting;
+        if (flagOn && !was) { last = 0; requestAnimationFrame(loop); }
+      }).observe(flag);
+    }
+  }
+
+  /* ---------- Pause decorative motion while it is off-screen ---------- */
+  var heroMap = $('.map');
+  var pauseIO = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      en.target.classList.toggle('is-offscreen', !en.isIntersecting);
+      if (en.target.contains(heroMap)) en.isIntersecting ? heroMap.unpauseAnimations() : heroMap.pauseAnimations();
+    });
+  });
+  $$('.hero, .ribbon').forEach(function (el) { pauseIO.observe(el); });
+
+  var ticking = false;
+  window.addEventListener('scroll', function () {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () { ticking = false; updateFlight(); });
+  }, { passive: true });
+  var rt;
+  window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(buildFlight, 120); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(buildFlight);
+  window.addEventListener('load', buildFlight);
+  buildFlight();
 
   /* ---------- Forms ---------- */
   function markInvalid(form) {
@@ -263,17 +221,19 @@
     $$('input[required], select[required]', form).forEach(function (inp) {
       var ok = inp.checkValidity() && String(inp.value).trim() !== '';
       inp.closest('.fld').classList.toggle('is-invalid', !ok);
+      inp.setAttribute('aria-invalid', String(!ok));
       if (!ok && !bad) bad = inp;
     });
     return bad;
   }
   function wireClear(form) {
     $$('input, select, textarea', form).forEach(function (inp) {
-      inp.addEventListener('input', function () { var f = inp.closest('.fld'); f && f.classList.remove('is-invalid'); });
-      inp.addEventListener('change', function () {
-        var f = inp.closest('.fld'); f && f.classList.remove('is-invalid');
-        var q = inp.closest('.q'); q && q.classList.remove('is-missing');
-      });
+      var clear = function () {
+        var f = inp.closest('.fld'); if (f) { f.classList.remove('is-invalid'); inp.removeAttribute('aria-invalid'); }
+        var q = inp.closest('.q'); if (q) q.classList.remove('is-missing');
+      };
+      inp.addEventListener('input', clear);
+      inp.addEventListener('change', clear);
     });
   }
   function setLoading(btn, on) { btn.disabled = on; btn.classList.toggle('is-loading', on); }
@@ -290,13 +250,9 @@
   ef.addEventListener('submit', function (e) {
     e.preventDefault();
     efErr.textContent = '';
-    var bad = markInvalid(ef);
-    var fd = new FormData(ef);
+    var bad = markInvalid(ef), fd = new FormData(ef);
     var missing = ['passport', 'fee', 'started'].filter(function (k) { return !fd.get(k); });
-    $$('.q', ef).forEach(function (q) {
-      var name = $('input', q).name;
-      q.classList.toggle('is-missing', missing.indexOf(name) > -1);
-    });
+    $$('.q', ef).forEach(function (q) { q.classList.toggle('is-missing', missing.indexOf($('input', q).name) > -1); });
     if (bad) { bad.focus(); return; }
     if (missing.length) { efErr.textContent = 'Please answer all 3 questions to check your eligibility.'; return; }
     var btn = $('button[type="submit"]', ef);
@@ -325,8 +281,7 @@
     cfErr.textContent = '';
     var bad = markInvalid(cf);
     if (bad) { bad.focus(); return; }
-    var fd = new FormData(cf);
-    var btn = $('button[type="submit"]', cf);
+    var fd = new FormData(cf), btn = $('button[type="submit"]', cf);
     setLoading(btn, true);
     post({
       _subject: 'Free consultation request — ' + fd.get('name'),

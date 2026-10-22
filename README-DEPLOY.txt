@@ -7,9 +7,8 @@ SPRINT OVERSEAS — WEBSITE UPLOAD GUIDE (sprintoverseas.com)
 5. Contact form: submit once to activate FormSubmit (arrives at springoverseas22@gmail.com)
 6. After any edit: press Ctrl+Shift+R (hard refresh) to bypass browser cache
 
-Contents: index.html (homepage), 404.html, .htaccess, robots.txt,
-assets/ (images, logo), assets/site/ (site.css, app.js, scene.js — the 3D page),
-assets/vendor/ (three.js, GSAP, Lenis — served locally), assets/3d/ (globe map),
-_next/ (still used by 404.html only).
-After editing site.css / app.js / scene.js, bump the ?v= number on their
+Contents: index.html (homepage), 404.html, .htaccess, robots.txt, sitemap.xml,
+assets/ (images, logo), assets/site/ (site.css, app.js, world-dots.svg).
+No build step and no third-party scripts; fonts load from Google Fonts.
+After editing site.css / app.js, bump the ?v= number on their
 <link>/<script> tags in index.html so visitors get the new version.
