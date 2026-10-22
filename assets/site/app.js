@@ -16,11 +16,9 @@
   /* ---------- Intro + reveals ---------- */
   // the inline head script drops the hidden-until-revealed state if this file never runs
   window.SO_READY = true;
-  var heroArt = $('.hero__art');
   setTimeout(function () {
     document.body.classList.add('is-ready');
-    $$('.hero .rv').forEach(function (el, i) { el.style.transitionDelay = (250 + i * 90) + 'ms'; el.classList.add('is-in'); });
-    setTimeout(function () { heroArt.classList.add('is-in'); }, 350);
+    $$('.hero .rv').forEach(function (el, i) { el.style.transitionDelay = (60 + i * 70) + 'ms'; el.classList.add('is-in'); });
   }, 40);
 
   var revealIO = new IntersectionObserver(function (entries) {
@@ -32,7 +30,7 @@
       revealIO.unobserve(el);
     });
   }, { rootMargin: '0px 0px -10% 0px' });
-  $$('.rv').forEach(function (el) { if (!el.closest('.hero') || el.closest('#eligibility')) revealIO.observe(el); });
+  $$('.rv').forEach(function (el) { if (!el.closest('.hero')) revealIO.observe(el); });
 
   /* ---------- Count-up ---------- */
   var countIO = new IntersectionObserver(function (entries) {
@@ -194,14 +192,10 @@
   }
 
   /* ---------- Pause decorative motion while it is off-screen ---------- */
-  var heroMap = $('.map');
   var pauseIO = new IntersectionObserver(function (entries) {
-    entries.forEach(function (en) {
-      en.target.classList.toggle('is-offscreen', !en.isIntersecting);
-      if (en.target.contains(heroMap)) en.isIntersecting ? heroMap.unpauseAnimations() : heroMap.pauseAnimations();
-    });
+    entries.forEach(function (en) { en.target.classList.toggle('is-offscreen', !en.isIntersecting); });
   });
-  $$('.hero, .ribbon').forEach(function (el) { pauseIO.observe(el); });
+  pauseIO.observe($('.ribbon'));
 
   var ticking = false;
   window.addEventListener('scroll', function () {
