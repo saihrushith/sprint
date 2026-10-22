@@ -213,6 +213,7 @@
     entries.forEach(function (en) { en.target.classList.toggle('is-offscreen', !en.isIntersecting); });
   });
   pauseIO.observe($('.ribbon'));
+  pauseIO.observe($('.hero'));
 
   var ticking = false;
   window.addEventListener('scroll', function () {
