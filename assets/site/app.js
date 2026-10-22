@@ -32,30 +32,12 @@
   }, { rootMargin: '0px 0px -10% 0px' });
   $$('.rv').forEach(function (el) { if (!el.closest('.hero')) revealIO.observe(el); });
 
-  /* ---------- Count-up ---------- */
-  var countIO = new IntersectionObserver(function (entries) {
-    entries.forEach(function (en) {
-      if (!en.isIntersecting) return;
-      var el = en.target, to = +el.getAttribute('data-count'), t0 = performance.now();
-      countIO.unobserve(el);
-      if (reduced) return;
-      (function tick(now) {
-        var k = clamp((now - t0) / 1200, 0, 1);
-        el.textContent = Math.round(to * (1 - Math.pow(1 - k, 3)));
-        if (k < 1) requestAnimationFrame(tick);
-      })(t0);
-    });
-  }, { threshold: .6 });
-  $$('[data-count]').forEach(function (el) { countIO.observe(el); });
-
   /* ---------- Nav, menu, floating actions ---------- */
-  var nav = $('#nav'), mbar = $('#mbar'), fab = $('.fab'), elig = $('#eligibility'), contact = $('#contact');
+  var nav = $('#nav'), fab = $('.fab'), heroEl = $('#home');
   var navLinks = $$('[data-nav]');
   function onScroll() {
     nav.classList.toggle('is-scrolled', window.scrollY > 40);
-    var past = elig.getBoundingClientRect().bottom < 0;
-    mbar.classList.toggle('is-on', past && contact.getBoundingClientRect().top > window.innerHeight * .6);
-    fab.classList.toggle('is-on', past);
+    fab.classList.toggle('is-on', heroEl.getBoundingClientRect().bottom < 0);
   }
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
@@ -80,8 +62,43 @@
   menu.addEventListener('click', function (e) { if (e.target.closest('a')) setMenu(false); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !menu.hidden) { setMenu(false); burger.focus(); } });
 
+  /* ---------- Eligibility form: inline on desktop, bottom sheet on phones (up to 767px) ---------- */
+  var wrap = $('#eligibility'), card = $('#elig-form'), closeBtn = $('#sheet-close');
+  var sheetMQ = window.matchMedia('(max-width: 767px)'), lastFocus = null;
+  function openSheet() {
+    lastFocus = document.activeElement;
+    wrap.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+    card.setAttribute('role', 'dialog');
+    card.setAttribute('aria-modal', 'true');
+    closeBtn.focus({ preventScroll: true });
+  }
+  function closeSheet() {
+    if (!wrap.classList.contains('is-open')) return;
+    wrap.classList.remove('is-open');
+    document.body.style.overflow = '';
+    card.removeAttribute('role');
+    card.removeAttribute('aria-modal');
+    if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
+  }
+  closeBtn.addEventListener('click', closeSheet);
+  wrap.addEventListener('click', function (e) { if (e.target === wrap) closeSheet(); });
+  sheetMQ.addEventListener('change', function () { if (!sheetMQ.matches) closeSheet(); });
+  document.addEventListener('keydown', function (e) {
+    if (!wrap.classList.contains('is-open')) return;
+    if (e.key === 'Escape') { closeSheet(); return; }
+    if (e.key !== 'Tab') return;
+    var f = $$('button:not([disabled]), input:not([disabled])', card).filter(function (x) { return x.offsetParent !== null || x === document.activeElement; });
+    if (!f.length) return;
+    var first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  });
   $$('a[href="#eligibility"]').forEach(function (a) {
-    a.addEventListener('click', function () { setTimeout(function () { $('#elig-form input[name="name"]').focus({ preventScroll: true }); }, 700); });
+    a.addEventListener('click', function (e) {
+      if (sheetMQ.matches) { e.preventDefault(); openSheet(); return; }
+      setTimeout(function () { $('#elig-form input[name="name"]').focus({ preventScroll: true }); }, 700);
+    });
   });
   $$('[data-route-pick]').forEach(function (a) {
     a.addEventListener('click', function () {

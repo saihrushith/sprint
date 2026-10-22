@@ -31,7 +31,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,600..900&family=IBM+Plex+Mono:wght@500;600&family=Nunito+Sans:wght@400;600;700&family=Public+Sans:wght@400..700&family=Sora:wght@700;800;900&display=swap">
-<link rel="stylesheet" href="assets/site/site.css?v=39">
+<link rel="stylesheet" href="assets/site/site.css?v=42">
 <script>document.documentElement.classList.add('js');setTimeout(function(){if(!window.SO_READY)document.documentElement.classList.remove('js')},3000);</script>
 <script type="application/ld+json">
 {
@@ -129,6 +129,7 @@
   <symbol id="i-plane" viewBox="0 0 24 24"><path fill="currentColor" d="M21.5 15.2v-1.7l-8-5V3.6a1.5 1.5 0 0 0-3 0v4.9l-8 5v1.7l8-2.5v5.4l-2 1.5v1.3l3.5-1 3.5 1v-1.3l-2-1.5v-5.4l8 2.5Z"/></symbol>
   <symbol id="i-shield" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v5.5c0 4.3 3 7.9 7 9.5 4-1.6 7-5.2 7-9.5V6Z"/><path d="m9 12 2 2 4-4"/></g></symbol>
   <symbol id="i-lock" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></g></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
   <symbol id="i-send" viewBox="0 0 24 24"><path fill="currentColor" d="M21.4 2.6a1 1 0 0 0-1.05-.23l-17 6.5a1 1 0 0 0 .02 1.88l7 2.4 2.4 7a1 1 0 0 0 1.88.02l6.5-17a1 1 0 0 0-.25-1.07ZM11.3 11.3 6.2 9.55l11.2-4.28Z"/></symbol>
   <symbol id="i-badge" viewBox="0 0 24 24"><path fill="currentColor" d="M12 1.8 14.6 3.6l3.1-.1 1 3 2.5 1.8-1 3 1 3-2.5 1.8-1 3-3.1-.1L12 22.2 9.4 20.4l-3.1.1-1-3L2.8 15.7l1-3-1-3 2.5-1.8 1-3 3.1.1Zm-1.2 13.6 5.6-5.6-1.4-1.4-4.2 4.2-2-2-1.4 1.4Z"/></symbol>
   <symbol id="i-people" viewBox="0 0 24 24"><path fill="currentColor" d="M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm7.5 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM9 13c-3.3 0-7 1.7-7 4.5V20h14v-2.5C16 14.7 12.3 13 9 13Zm7.5 0c-.6 0-1.2.1-1.8.2 1.3.9 2.3 2.3 2.3 4.3V20h5v-2.4c0-2.8-3.1-4.6-5.5-4.6Z"/></symbol>
@@ -200,19 +201,24 @@
         <p class="hero__sub">Expert help with US visa appointments, DS-160 filing and interview prep — from our team in Hyderabad.</p>
         <ul class="hero__stats" aria-label="Track record">
           <li><strong>500+</strong><span>Slots secured</span></li>
+          <li><strong>98%</strong><span>Success rate</span></li>
+          <li><strong>24/7</strong><span>Support</span></li>
           <li><strong>3+</strong><span>Years of experience</span></li>
         </ul>
         <div class="hero__mcta">
-          <a href="#eligibility" class="hbtn hbtn--glass"><svg aria-hidden="true"><use href="#i-cal"/></svg>Check Eligibility</a>
+          <a href="#eligibility" class="hbtn hbtn--red"><svg aria-hidden="true"><use href="#i-cal"/></svg>Check Eligibility</a>
           <a href="https://wa.me/919502290703?text=Hi%20Sprint%20Overseas!%20I%27d%20like%20a%20free%20visa%20consultation." class="hbtn hbtn--wa" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-wa"/></svg>WhatsApp Now</a>
+          <a href="tel:+919502290703" class="hbtn hbtn--line"><svg aria-hidden="true"><use href="#i-phone"/></svg>Call Us</a>
         </div>
         <p class="hero__note"><svg aria-hidden="true"><use href="#i-shield"/></svg>Free profile evaluation · No charge, no obligation</p>
       </div>
 
       <div class="hero__formwrap" id="eligibility">
         <form class="hero__card" id="elig-form" novalidate aria-labelledby="elig-title">
+          <span class="sheet__handle" aria-hidden="true"></span>
           <div class="hero__cardhead">
             <h2 id="elig-title">Check Your Eligibility</h2>
+            <button type="button" class="sheet__close" id="sheet-close" aria-label="Close form"><svg aria-hidden="true"><use href="#i-close"/></svg></button>
             <p>Answer 3 quick questions — a specialist calls you back within 2 hours (Mon–Sat).</p>
           </div>
           <label class="hg"><span>Full Name <i aria-label="required">*</i></span><input name="name" type="text" autocomplete="name" placeholder="Your full name" required></label>
@@ -248,18 +254,6 @@
     <li><svg aria-hidden="true"><use href="#i-shield"/></svg>Secure And Confidential</li>
     <li><svg aria-hidden="true"><use href="#i-people"/></svg>500+ Slots Secured</li>
     <li><svg aria-hidden="true"><use href="#i-star"/></svg>Since 2021</li>
-  </ul>
-</section>
-
-<!-- COMMITMENTS -->
-<section class="facts" aria-labelledby="facts-title">
-  <h2 class="sr" id="facts-title">What every Sprint Overseas file includes</h2>
-  <ul class="wrap facts__list">
-    <li class="rv"><b>24/7</b><span>Slot monitoring at your consulate</span></li>
-    <li class="rv"><b><span data-count="3">3</span>×</b><span>QC review on every DS-160</span></li>
-    <li class="rv"><b><span data-count="48">48</span>h</b><span>File build after documents</span></li>
-    <li class="rv"><b><span data-count="2">2</span></b><span>Mock interviews before your date</span></li>
-    <li class="rv"><b>&lt;<span data-count="2">2</span>h</b><span>Callback, Monday to Saturday</span></li>
   </ul>
 </section>
 
@@ -490,11 +484,11 @@
 
 <a class="fab" href="https://wa.me/919502290703?text=Hi%20Sprint%20Overseas!%20I%27d%20like%20a%20free%20visa%20consultation." target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp"><svg aria-hidden="true"><use href="#i-wa"/></svg></a>
 <nav class="mbar" id="mbar" aria-label="Quick actions">
-  <a href="tel:+919502290703"><svg aria-hidden="true"><use href="#i-phone"/></svg>Call</a>
-  <a href="https://wa.me/919502290703" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-wa"/></svg>WhatsApp</a>
-  <a href="#eligibility" class="mbar__main">Check Eligibility <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+  <a href="#eligibility" class="mbar__main"><svg aria-hidden="true"><use href="#i-cal"/></svg>Check Eligibility</a>
+  <a href="tel:+919502290703" class="mbar__call"><svg aria-hidden="true"><use href="#i-phone"/></svg>Call</a>
+  <a href="https://wa.me/919502290703" class="mbar__wa" target="_blank" rel="noopener" aria-label="Chat on WhatsApp"><svg aria-hidden="true"><use href="#i-wa"/></svg></a>
 </nav>
 
-<script src="assets/site/app.js?v=39" defer></script>
+<script src="assets/site/app.js?v=42" defer></script>
 </body>
 </html>
