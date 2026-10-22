@@ -252,7 +252,8 @@ svg { width: 1em; height: 1em; flex: none; }
 /* ---------- Why choose us ---------- */
 .why { background: #fff; }
 .why__grid { margin-top: clamp(36px, 4vw, 56px); display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-.why__card { padding: 28px 24px; background: #fff; border: 1px solid var(--line); border-top: 4px solid var(--red); border-radius: var(--r); transition: transform .4s var(--ease), box-shadow .4s var(--ease); }
+.why__card { position: relative; padding: 40px 24px 28px; background: #fff; border: 1px solid var(--line); border-radius: var(--r); transition: transform .4s var(--ease), box-shadow .4s var(--ease); }
+.why__card::before { content: ""; position: absolute; left: 24px; top: 24px; width: 36px; height: 4px; border-radius: 2px; background: var(--red); }
 .why__card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
 .why__card h3 { margin-bottom: 10px; font: 800 20px/1.25 var(--f-d); font-stretch: 104%; color: var(--blue); }
 .why__card p { font-size: 16px; color: #000; }
