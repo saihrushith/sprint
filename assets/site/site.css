@@ -155,7 +155,7 @@ svg { width: 1em; height: 1em; flex: none; }
 .hero__stats { display: flex; flex-wrap: wrap; gap: 24px; margin: 0 0 28px; }
 .hero__stats strong { display: block; font: 900 22.4px/1 Sora, sans-serif; }
 .hero__stats span { display: block; margin-top: 3.2px; font-size: 11.52px; line-height: 1.65; letter-spacing: .06em; text-transform: uppercase; opacity: .92; }
-.hero__note { display: flex; align-items: center; gap: 6px; font-size: 12.48px; line-height: 1.65; opacity: .75; }
+.hero__note { display: flex; align-items: center; gap: 6px; font-size: 12.48px; line-height: 1.65; opacity: .92; }
 .hero__note svg { width: 13px; height: 13px; }
 .hero__mcta { display: none; }
 
