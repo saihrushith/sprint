@@ -30,8 +30,8 @@
 <link rel="apple-touch-icon" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,600..900&family=IBM+Plex+Mono:wght@500;600&family=Public+Sans:wght@400..700&display=swap">
-<link rel="stylesheet" href="assets/site/site.css?v=35">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,600..900&family=IBM+Plex+Mono:wght@500;600&family=Nunito+Sans:wght@400;600;700&family=Public+Sans:wght@400..700&family=Sora:wght@700;800;900&display=swap">
+<link rel="stylesheet" href="assets/site/site.css?v=37">
 <script>document.documentElement.classList.add('js');setTimeout(function(){if(!window.SO_READY)document.documentElement.classList.remove('js')},3000);</script>
 <script type="application/ld+json">
 {
@@ -129,6 +129,9 @@
   <symbol id="i-plane" viewBox="0 0 24 24"><path fill="currentColor" d="M21.5 15.2v-1.7l-8-5V3.6a1.5 1.5 0 0 0-3 0v4.9l-8 5v1.7l8-2.5v5.4l-2 1.5v1.3l3.5-1 3.5 1v-1.3l-2-1.5v-5.4l8 2.5Z"/></symbol>
   <symbol id="i-shield" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v5.5c0 4.3 3 7.9 7 9.5 4-1.6 7-5.2 7-9.5V6Z"/><path d="m9 12 2 2 4-4"/></g></symbol>
   <symbol id="i-lock" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></g></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path fill="currentColor" d="M21.4 2.6a1 1 0 0 0-1.05-.23l-17 6.5a1 1 0 0 0 .02 1.88l7 2.4 2.4 7a1 1 0 0 0 1.88.02l6.5-17a1 1 0 0 0-.25-1.07ZM11.3 11.3 6.2 9.55l11.2-4.28Z"/></symbol>
+  <symbol id="i-badge" viewBox="0 0 24 24"><path fill="currentColor" d="M12 1.8 14.6 3.6l3.1-.1 1 3 2.5 1.8-1 3 1 3-2.5 1.8-1 3-3.1-.1L12 22.2 9.4 20.4l-3.1.1-1-3L2.8 15.7l1-3-1-3 2.5-1.8 1-3 3.1.1Zm-1.2 13.6 5.6-5.6-1.4-1.4-4.2 4.2-2-2-1.4 1.4Z"/></symbol>
+  <symbol id="i-people" viewBox="0 0 24 24"><path fill="currentColor" d="M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm7.5 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM9 13c-3.3 0-7 1.7-7 4.5V20h14v-2.5C16 14.7 12.3 13 9 13Zm7.5 0c-.6 0-1.2.1-1.8.2 1.3.9 2.3 2.3 2.3 4.3V20h5v-2.4c0-2.8-3.1-4.6-5.5-4.6Z"/></symbol>
   <symbol id="i-star" viewBox="0 0 24 24"><path fill="currentColor" d="m12 2.8 2.7 5.6 6.1.8-4.5 4.2 1.1 6.1L12 16.6l-5.4 2.9 1.1-6.1-4.5-4.2 6.1-.8Z"/></symbol>
   <!-- service illustrations: drawn on hover / when revealed -->
   <symbol id="s-tourist" viewBox="0 0 48 48"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="16" width="32" height="24" rx="4" pathLength="1"/><path d="M18 16v-4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v4" pathLength="1"/><path d="M8 26h32M20 26v4h8v-4" pathLength="1"/></g></symbol>
@@ -188,47 +191,64 @@
 
 <!-- HERO -->
 <section class="hero" id="home" aria-labelledby="hero-title">
-  <div class="wrap hero__grid">
-    <div class="hero__copy">
-      <p class="badge rv"><span class="badge__dot" aria-hidden="true"></span>US visa specialists in Hyderabad · Since 2021</p>
-      <h1 class="hero__title rv" id="hero-title">Book US Visa Appointment <span>— Fast &amp; <span class="nw">Hassle-Free</span></span></h1>
-      <p class="hero__lede rv">Tourist and student visas — documented, filed and interview-prepped by specialists who treat your case like their own. You dream it. We sprint the paperwork.</p>
-      <ul class="stats rv" aria-label="Track record">
-        <li><b>500+</b><span>Slots secured</span></li>
-        <li><b>3+</b><span>Years of experience</span></li>
-      </ul>
-      <p class="assure rv"><svg aria-hidden="true"><use href="#i-shield"/></svg>Free profile evaluation · No charge, no obligation</p>
-    </div>
+  <div class="hero__bg" aria-hidden="true"></div>
+  <div class="hero__wrap">
+    <div class="hero__grid">
+      <div class="hero__content">
+        <p class="hero__badge"><span class="hero__dot" aria-hidden="true"></span>US Visa Specialists in Hyderabad · Since 2021</p>
+        <h1 class="hero__title" id="hero-title">Book US Visa Appointment<br>— Fast &amp; Hassle-Free</h1>
+        <p class="hero__sub">Expert help with US visa appointments, DS-160 filing and interview prep — from our team in Hyderabad.</p>
+        <ul class="hero__stats" aria-label="Track record">
+          <li><strong>500+</strong><span>Slots secured</span></li>
+          <li><strong>3+</strong><span>Years of experience</span></li>
+        </ul>
+        <div class="hero__mcta">
+          <a href="#eligibility" class="hbtn hbtn--glass"><svg aria-hidden="true"><use href="#i-cal"/></svg>Check Eligibility</a>
+          <a href="https://wa.me/919502290703?text=Hi%20Sprint%20Overseas!%20I%27d%20like%20a%20free%20visa%20consultation." class="hbtn hbtn--wa" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-wa"/></svg>WhatsApp Now</a>
+        </div>
+        <p class="hero__note"><svg aria-hidden="true"><use href="#i-shield"/></svg>Free profile evaluation · No charge, no obligation</p>
+      </div>
 
-    <div class="hero__form" id="eligibility">
-      <form class="hform rv" id="elig-form" novalidate aria-labelledby="elig-title">
-        <h2 id="elig-title">Check your eligibility</h2>
-        <p class="hform__sub">Answer 3 quick questions — a specialist calls you back within 2 hours (Mon–Sat).</p>
-        <div class="hform__fields">
-          <label class="fld"><span>Full name <i>*</i></span><input name="name" type="text" autocomplete="name" placeholder="John Doe" required></label>
-          <label class="fld"><span>Phone number <i>*</i></span><input name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+1 234 567 8900" required></label>
-          <label class="fld"><span>Email ID <i>*</i></span><input name="email" type="email" autocomplete="email" placeholder="john@example.com" required></label>
-          <fieldset class="q"><legend>Do you have a valid passport to travel to the USA?</legend>
-            <div class="seg"><label><input type="radio" name="passport" value="Yes"><span>Yes</span></label><label><input type="radio" name="passport" value="No"><span>No</span></label></div>
+      <div class="hero__formwrap" id="eligibility">
+        <form class="hero__card" id="elig-form" novalidate aria-labelledby="elig-title">
+          <div class="hero__cardhead">
+            <h2 id="elig-title">Check Your Eligibility</h2>
+            <p>Answer 3 quick questions — a specialist calls you back within 2 hours (Mon–Sat).</p>
+          </div>
+          <label class="hg"><span>Full Name <i aria-label="required">*</i></span><input name="name" type="text" autocomplete="name" placeholder="Your full name" required></label>
+          <label class="hg"><span>Phone Number <i aria-label="required">*</i></span><input name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+91 98765 43210" required></label>
+          <label class="hg"><span>Email ID <i aria-label="required">*</i></span><input name="email" type="email" autocomplete="email" placeholder="your@email.com" required></label>
+          <fieldset class="hg hq"><legend>Do you have a valid passport to travel to the USA? <i aria-label="required">*</i></legend>
+            <div class="hseg"><label><input type="radio" name="passport" value="Yes"><span>Yes</span></label><label><input type="radio" name="passport" value="No"><span>No</span></label></div>
           </fieldset>
-          <fieldset class="q"><legend>Have you paid the visa fee on the US Govt website?</legend>
-            <div class="seg"><label><input type="radio" name="fee" value="Yes"><span>Yes</span></label><label><input type="radio" name="fee" value="No"><span>No</span></label></div>
+          <fieldset class="hg hq"><legend>Have you paid the visa fee on the US Govt website? <i aria-label="required">*</i></legend>
+            <div class="hseg"><label><input type="radio" name="fee" value="Yes"><span>Yes</span></label><label><input type="radio" name="fee" value="No"><span>No</span></label></div>
           </fieldset>
-          <fieldset class="q"><legend>Have you started your visa process?</legend>
-            <div class="seg"><label><input type="radio" name="started" value="Yes"><span>Yes</span></label><label><input type="radio" name="started" value="No"><span>No</span></label></div>
+          <fieldset class="hg hq"><legend>Have you started your visa process? <i aria-label="required">*</i></legend>
+            <div class="hseg"><label><input type="radio" name="started" value="Yes"><span>Yes</span></label><label><input type="radio" name="started" value="No"><span>No</span></label></div>
           </fieldset>
-        </div>
-        <button type="submit" class="btn btn--red btn--block btn--lg">Check Eligibility <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></button>
-        <p class="form-err" id="elig-err" role="alert"></p>
-        <p class="hform__note"><svg aria-hidden="true"><use href="#i-lock"/></svg>No spam — one callback, that's it</p>
-        <div class="done" role="status" aria-live="polite">
-          <div class="done__ic"><svg aria-hidden="true"><use href="#i-check"/></svg></div>
-          <h3>Eligibility check received.</h3>
-          <p>We'll call you within 2 hours (Mon–Sat) to walk through your eligibility.</p>
-        </div>
-      </form>
+          <button type="submit" class="hero__submit"><svg aria-hidden="true"><use href="#i-send"/></svg>Check Eligibility</button>
+          <p class="form-err" id="elig-err" role="alert"></p>
+          <p class="hero__secure"><svg aria-hidden="true"><use href="#i-lock"/></svg>No spam — one callback, that's it.</p>
+          <div class="done" role="status" aria-live="polite">
+            <div class="done__ic"><svg aria-hidden="true"><use href="#i-check"/></svg></div>
+            <h3>Eligibility check received.</h3>
+            <p>We'll call you within 2 hours (Mon–Sat) to walk through your eligibility.</p>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
+</section>
+
+<section class="trustbar" aria-label="Why applicants choose us">
+  <ul class="trustbar__in">
+    <li><svg aria-hidden="true"><use href="#i-badge"/></svg>Free Profile Evaluation</li>
+    <li><svg aria-hidden="true"><use href="#i-clock"/></svg>24/7 Slot Monitoring</li>
+    <li><svg aria-hidden="true"><use href="#i-shield"/></svg>Secure And Confidential</li>
+    <li><svg aria-hidden="true"><use href="#i-people"/></svg>500+ Slots Secured</li>
+    <li><svg aria-hidden="true"><use href="#i-star"/></svg>Since 2021</li>
+  </ul>
 </section>
 
 <!-- COMMITMENTS -->
@@ -475,6 +495,6 @@
   <a href="#eligibility" class="mbar__main">Check Eligibility <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
 </nav>
 
-<script src="assets/site/app.js?v=35" defer></script>
+<script src="assets/site/app.js?v=37" defer></script>
 </body>
 </html>

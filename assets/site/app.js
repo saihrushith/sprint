@@ -214,7 +214,7 @@
     var bad = null;
     $$('input[required], select[required]', form).forEach(function (inp) {
       var ok = inp.checkValidity() && String(inp.value).trim() !== '';
-      inp.closest('.fld').classList.toggle('is-invalid', !ok);
+      inp.closest('.fld, .hg').classList.toggle('is-invalid', !ok);
       inp.setAttribute('aria-invalid', String(!ok));
       if (!ok && !bad) bad = inp;
     });
@@ -223,8 +223,8 @@
   function wireClear(form) {
     $$('input, select, textarea', form).forEach(function (inp) {
       var clear = function () {
-        var f = inp.closest('.fld'); if (f) { f.classList.remove('is-invalid'); inp.removeAttribute('aria-invalid'); }
-        var q = inp.closest('.q'); if (q) q.classList.remove('is-missing');
+        var f = inp.closest('.fld, .hg'); if (f) { f.classList.remove('is-invalid'); inp.removeAttribute('aria-invalid'); }
+        var q = inp.closest('.hq'); if (q) q.classList.remove('is-missing');
       };
       inp.addEventListener('input', clear);
       inp.addEventListener('change', clear);
@@ -246,7 +246,7 @@
     efErr.textContent = '';
     var bad = markInvalid(ef), fd = new FormData(ef);
     var missing = ['passport', 'fee', 'started'].filter(function (k) { return !fd.get(k); });
-    $$('.q', ef).forEach(function (q) { q.classList.toggle('is-missing', missing.indexOf($('input', q).name) > -1); });
+    $$('.hq', ef).forEach(function (q) { q.classList.toggle('is-missing', missing.indexOf($('input', q).name) > -1); });
     if (bad) { bad.focus(); return; }
     if (missing.length) { efErr.textContent = 'Please answer all 3 questions to check your eligibility.'; return; }
     var btn = $('button[type="submit"]', ef);
