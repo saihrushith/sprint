@@ -141,7 +141,7 @@ svg { width: 1em; height: 1em; flex: none; }
 .sec__lede { max-width: 440px; margin-top: 18px; color: var(--muted); font-size: 18px; }
 
 /* ---------- HERO ---------- */
-.hero { position: relative; padding: clamp(48px, 6vw, 88px) 0 clamp(56px, 7vw, 96px); color: #fff; overflow: hidden;
+.hero { position: relative; padding: clamp(48px, 6vw, 88px) 0 clamp(56px, 7vw, 96px); color: #fff; overflow: hidden; background-color: var(--blue);
   background:
     radial-gradient(circle, rgba(255, 255, 255, .055) 0 21px, transparent 22px) 0 0 / 62px 62px,
     linear-gradient(120deg, var(--blue-900) 0%, var(--blue) 45%, #1b4f92 100%); }
