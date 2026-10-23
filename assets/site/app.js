@@ -1,6 +1,6 @@
 /* ==========================================================================
    SPRINT OVERSEAS — interaction layer (no dependencies)
-   Reveals, nav, process flight path, waving flag, lead forms.
+   Reveals, nav, waving flag, lead forms.
    Everything is progressive: the page is complete without this file.
    ========================================================================== */
 (function () {
@@ -48,7 +48,7 @@
       navLinks.forEach(function (l) { l.classList.toggle('is-active', l.getAttribute('href') === '#' + en.target.id); });
     });
   }, { rootMargin: '-45% 0px -50% 0px' });
-  ['home', 'services', 'about', 'process', 'faq', 'contact'].forEach(function (id) { sectionIO.observe(document.getElementById(id)); });
+  ['home', 'about', 'how-it-works', 'services', 'faq', 'contact'].forEach(function (id) { sectionIO.observe(document.getElementById(id)); });
 
   var burger = $('#burger'), menu = $('#menu');
   function setMenu(open) {
@@ -107,41 +107,6 @@
       sel.closest('.fld').classList.remove('is-invalid');
     });
   });
-
-  /* ---------- Process: a plane flies the path through the five steps ---------- */
-  var flight = $('#flight'), fBase = $('.flight__base'), fDone = $('.flight__done'), fJet = $('.flight__jet');
-  var stepEls = $$('.step'), fLen = 0;
-  function buildFlight() {
-    var box = flight.getBoundingClientRect();
-    var pts = stepEls.map(function (s) {
-      var r = $('.step__dot', s).getBoundingClientRect();
-      return { x: r.left + r.width / 2 - box.left, y: r.top + r.height / 2 - box.top };
-    });
-    var d = 'M' + pts[0].x + ' ' + pts[0].y;
-    for (var i = 1; i < pts.length; i++) {
-      var a = pts[i - 1], b = pts[i], w = (i % 2 ? -1 : 1) * 26;
-      d += Math.abs(b.x - a.x) > Math.abs(b.y - a.y)
-        ? ' C' + (a.x + (b.x - a.x) / 2) + ' ' + (a.y + w) + ' ' + (a.x + (b.x - a.x) / 2) + ' ' + (b.y + w) + ' ' + b.x + ' ' + b.y
-        : ' C' + (a.x + w) + ' ' + (a.y + (b.y - a.y) / 2) + ' ' + (b.x + w) + ' ' + (a.y + (b.y - a.y) / 2) + ' ' + b.x + ' ' + b.y;
-    }
-    fBase.setAttribute('d', d);
-    fDone.setAttribute('d', d);
-    fLen = fDone.getTotalLength();
-    fDone.style.strokeDasharray = fLen;
-    updateFlight();
-  }
-  function updateFlight() {
-    if (!fLen) return;
-    var r = flight.getBoundingClientRect(), vh = window.innerHeight;
-    var horizontal = window.innerWidth > 1024;
-    var p = reduced ? 1 : clamp((vh * .8 - r.top) / (horizontal ? vh * .45 : r.height), 0, 1);
-    fDone.style.strokeDashoffset = fLen * (1 - p);
-    var at = fLen * p, pt = fDone.getPointAtLength(at), nx = fDone.getPointAtLength(Math.min(fLen, at + 1)), pv = fDone.getPointAtLength(Math.max(0, at - 1));
-    var ang = Math.atan2(nx.y - pv.y, nx.x - pv.x) * 180 / Math.PI + 90;
-    fJet.setAttribute('transform', 'translate(' + pt.x + ' ' + pt.y + ') rotate(' + ang + ')');
-    var n = stepEls.length - 1;
-    stepEls.forEach(function (s, i) { s.classList.toggle('is-on', p >= i / n - .02); });
-  }
 
   /* ---------- Waving flag (final CTA) ---------- */
   var flag = $('#flag'), flagParts = null, flagOn = false, flagT = 0;
@@ -214,18 +179,6 @@
   });
   pauseIO.observe($('.ribbon'));
   pauseIO.observe($('.hero'));
-
-  var ticking = false;
-  window.addEventListener('scroll', function () {
-    if (ticking) return;
-    ticking = true;
-    requestAnimationFrame(function () { ticking = false; updateFlight(); });
-  }, { passive: true });
-  var rt;
-  window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(buildFlight, 120); });
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(buildFlight);
-  window.addEventListener('load', buildFlight);
-  buildFlight();
 
   /* ---------- Forms ---------- */
   function markInvalid(form) {
