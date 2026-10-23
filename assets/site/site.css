@@ -485,3 +485,4 @@ svg { width: 1em; height: 1em; flex: none; }
   .js .rv { opacity: 1 !important; transform: none !important; }
 }
 .nw { white-space: nowrap; }
+.foot__brand { display: grid; gap: 18px; justify-items: start; align-content: start; }

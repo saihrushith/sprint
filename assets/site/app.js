@@ -1,6 +1,6 @@
 /* ==========================================================================
    SPRINT OVERSEAS — interaction layer (no dependencies)
-   Reveals, nav, waving flag, lead forms.
+   Reveals, nav, eligibility sheet, lead form.
    Everything is progressive: the page is complete without this file.
    ========================================================================== */
 (function () {
@@ -48,7 +48,7 @@
       navLinks.forEach(function (l) { l.classList.toggle('is-active', l.getAttribute('href') === '#' + en.target.id); });
     });
   }, { rootMargin: '-45% 0px -50% 0px' });
-  ['home', 'about', 'how-it-works', 'services', 'faq', 'contact'].forEach(function (id) { sectionIO.observe(document.getElementById(id)); });
+  ['home', 'about', 'how-it-works'].forEach(function (id) { sectionIO.observe(document.getElementById(id)); });
 
   var burger = $('#burger'), menu = $('#menu');
   function setMenu(open) {
@@ -100,84 +100,10 @@
       setTimeout(function () { $('#elig-form input[name="name"]').focus({ preventScroll: true }); }, 700);
     });
   });
-  $$('[data-route-pick]').forEach(function (a) {
-    a.addEventListener('click', function () {
-      var sel = $('#cform select[name="service"]');
-      sel.value = a.getAttribute('data-route-pick');
-      sel.closest('.fld').classList.remove('is-invalid');
-    });
-  });
-
-  /* ---------- Waving flag (final CTA) ---------- */
-  var flag = $('#flag'), flagParts = null, flagOn = false, flagT = 0;
-  var FX = 34, FY = 26, FW = 330, FH = 174, COLS = 28, STRIPE = FH / 13, CW = FW * .4, CH = STRIPE * 7;
-  function el(tag, attrs) { var e = document.createElementNS(SVGNS, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); flag.appendChild(e); return e; }
-  function buildFlag() {
-    el('rect', { x: FX - 10, y: FY - 8, width: 5, height: 214, rx: 2.5, fill: '#c9d6e8' });
-    el('circle', { cx: FX - 7.5, cy: FY - 12, r: 6, fill: '#e3c27a' });
-    var stripes = [];
-    for (var i = 0; i < 13; i++) stripes.push(el('path', { fill: i % 2 ? '#ffffff' : '#b31942' }));
-    var canton = el('path', { fill: '#0a3161' });
-    var stars = [];
-    for (var row = 0; row < 9; row++) {
-      var count = row % 2 ? 5 : 6;
-      for (var c = 0; c < count; c++) {
-        var u = (row % 2 ? (c + 1) : (c + .5)) / 6, v = (row + 1) / 10;
-        stars.push({ u: u * CW, v: v * CH, node: el('circle', { r: 2.6, fill: '#fff' }) });
-      }
-    }
-    var shades = [];
-    for (var s = 0; s < COLS; s++) shades.push(el('path', {}));
-    flagParts = { stripes: stripes, canton: canton, stars: stars, shades: shades };
-    drawFlag(0);
-  }
-  // vertical offset of the cloth at horizontal distance x from the pole
-  function wave(x, t) { var k = x / FW; return Math.sin(x * .028 - t * 2.4) * 9 * k + Math.sin(x * .011 - t * 1.3) * 4 * k; }
-  function drawFlag(t) {
-    var xs = [], i, s;
-    for (i = 0; i <= COLS; i++) xs.push(i * FW / COLS);
-    var off = xs.map(function (x) { return wave(x, t); });
-    function band(y0, y1, upTo) {
-      var d = '', n = 0;
-      for (i = 0; i <= COLS && xs[i] <= upTo + .01; i++, n++) d += (i ? 'L' : 'M') + (FX + xs[i]).toFixed(1) + ' ' + (FY + y0 + off[i]).toFixed(1);
-      for (i = n - 1; i >= 0; i--) d += 'L' + (FX + xs[i]).toFixed(1) + ' ' + (FY + y1 + off[i]).toFixed(1);
-      return d + 'Z';
-    }
-    flagParts.stripes.forEach(function (p, k) { p.setAttribute('d', band(k * STRIPE, (k + 1) * STRIPE + .4, FW)); });
-    flagParts.canton.setAttribute('d', band(0, CH, Math.ceil(CW / (FW / COLS)) * FW / COLS));
-    flagParts.stars.forEach(function (st) { st.node.setAttribute('cx', FX + st.u); st.node.setAttribute('cy', FY + st.v + wave(st.u, t)); });
-    for (s = 0; s < COLS; s++) {
-      var slope = off[s + 1] - off[s], a = clamp(slope * .07, -.22, .22);
-      var p = flagParts.shades[s];
-      p.setAttribute('d', 'M' + (FX + xs[s]) + ' ' + (FY + off[s]) + 'L' + (FX + xs[s + 1] + .3) + ' ' + (FY + off[s + 1]) + 'L' + (FX + xs[s + 1] + .3) + ' ' + (FY + FH + off[s + 1]) + 'L' + (FX + xs[s]) + ' ' + (FY + FH + off[s]) + 'Z');
-      p.setAttribute('fill', a > 0 ? '#000' : '#fff');
-      p.setAttribute('fill-opacity', Math.abs(a).toFixed(3));
-    }
-  }
-  if (flag) {
-    buildFlag();
-    if (!reduced) {
-      var last = 0;
-      var loop = function (now) {
-        if (!flagOn) return;
-        flagT += last ? Math.min(.05, (now - last) / 1000) : 0;
-        last = now;
-        drawFlag(flagT);
-        requestAnimationFrame(loop);
-      };
-      new IntersectionObserver(function (en) {
-        var was = flagOn;
-        flagOn = en[0].isIntersecting;
-        if (flagOn && !was) { last = 0; requestAnimationFrame(loop); }
-      }).observe(flag);
-    }
-  }
-
   /* ---------- Pause decorative motion while it is off-screen ---------- */
   var pauseIO = new IntersectionObserver(function (entries) {
     entries.forEach(function (en) { en.target.classList.toggle('is-offscreen', !en.isIntersecting); });
   });
-  pauseIO.observe($('.ribbon'));
   pauseIO.observe($('.hero'));
 
   /* ---------- Forms ---------- */
@@ -239,33 +165,4 @@
     }).then(function () { setLoading(btn, false); });
   });
 
-  var cf = $('#cform'), cfErr = $('#cform-err');
-  wireClear(cf);
-  cf.addEventListener('submit', function (e) {
-    e.preventDefault();
-    cfErr.textContent = '';
-    var bad = markInvalid(cf);
-    if (bad) { bad.focus(); return; }
-    var fd = new FormData(cf), btn = $('button[type="submit"]', cf);
-    setLoading(btn, true);
-    post({
-      _subject: 'Free consultation request — ' + fd.get('name'),
-      _template: 'table', _captcha: 'false',
-      Name: fd.get('name'), Email: fd.get('email'), Phone: fd.get('phone'),
-      'Visa route': fd.get('service'),
-      'Travel plan': fd.get('message') || '—'
-    }).then(function (r) {
-      return r.json().then(function (j) { return { ok: r.ok, j: j }; });
-    }).then(function (res) {
-      if (!res.ok || String(res.j.success) !== 'true') {
-        cfErr.textContent = res.j.message || 'Something went wrong. Please try again, or WhatsApp us directly.';
-        return;
-      }
-      cf.classList.add('is-done');
-      cf.reset();
-    }).catch(function () {
-      cfErr.textContent = "Couldn't reach the server. Please WhatsApp us instead at +91 95022 90703 — we reply fast.";
-    }).then(function () { setLoading(btn, false); });
-  });
-  $('#cform-again').addEventListener('click', function () { cf.classList.remove('is-done'); });
 })();
