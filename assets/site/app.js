@@ -48,7 +48,7 @@
       navLinks.forEach(function (l) { l.classList.toggle('is-active', l.getAttribute('href') === '#' + en.target.id); });
     });
   }, { rootMargin: '-45% 0px -50% 0px' });
-  ['home', 'about', 'how-it-works'].forEach(function (id) { sectionIO.observe(document.getElementById(id)); });
+  ['home', 'about', 'how-it-works', 'contact'].forEach(function (id) { sectionIO.observe(document.getElementById(id)); });
 
   var burger = $('#burger'), menu = $('#menu');
   function setMenu(open) {
@@ -165,4 +165,33 @@
     }).then(function () { setLoading(btn, false); });
   });
 
+  var cf = $('#cform'), cfErr = $('#cform-err');
+  wireClear(cf);
+  cf.addEventListener('submit', function (e) {
+    e.preventDefault();
+    cfErr.textContent = '';
+    var bad = markInvalid(cf);
+    if (bad) { bad.focus(); return; }
+    var fd = new FormData(cf), btn = $('button[type="submit"]', cf);
+    setLoading(btn, true);
+    post({
+      _subject: 'Free consultation request — ' + fd.get('name'),
+      _template: 'table', _captcha: 'false',
+      Name: fd.get('name'), Email: fd.get('email'), Phone: fd.get('phone'),
+      Message: fd.get('message'),
+      Source: 'Contact form'
+    }).then(function (r) {
+      return r.json().then(function (j) { return { ok: r.ok, j: j }; });
+    }).then(function (res) {
+      if (!res.ok || String(res.j.success) !== 'true') {
+        cfErr.textContent = res.j.message || 'Something went wrong. Please try again, or WhatsApp us directly.';
+        return;
+      }
+      cf.classList.add('is-done');
+      cf.reset();
+    }).catch(function () {
+      cfErr.textContent = "Couldn't reach the server. Please WhatsApp us instead at +91 95022 90703 — we reply fast.";
+    }).then(function () { setLoading(btn, false); });
+  });
+  $('#cform-again').addEventListener('click', function () { cf.classList.remove('is-done'); });
 })();
