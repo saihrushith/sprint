@@ -300,17 +300,6 @@ svg { width: 1em; height: 1em; flex: none; }
 .commit__card h3 { margin-bottom: 8px; font: 800 19px/1.3 var(--f-d); font-stretch: 104%; }
 .commit__card p { font-size: 15.5px; color: #d3dff0; }
 
-/* ---------- Ribbon ---------- */
-.ribbon { position: relative; height: clamp(130px, 13vw, 190px); overflow: hidden; display: grid; place-items: center; }
-.ribbon__band { position: absolute; left: -4%; right: -4%; padding: 14px 0; overflow: hidden; }
-.ribbon__band--red { background: var(--red); color: #fff; transform: rotate(-2.2deg); z-index: 2; }
-.ribbon__band--blue { background: var(--blue); color: #fff; transform: rotate(2deg); }
-.ribbon__track { display: flex; align-items: center; gap: 24px; width: max-content; animation: marquee 36s linear infinite; }
-.ribbon__band--blue .ribbon__track { animation-direction: reverse; animation-duration: 46s; }
-.ribbon span { font: 900 clamp(20px, 2.3vw, 32px)/1 var(--f-d); font-stretch: 115%; text-transform: uppercase; letter-spacing: .01em; white-space: nowrap; }
-.ribbon svg { width: 18px; height: 18px; opacity: .9; }
-@keyframes marquee { to { transform: translateX(-50%); } }
-
 /* ---------- Services ---------- */
 .services { background: var(--paper); border-block: 1px solid var(--line); }
 .cards { margin-top: clamp(40px, 5vw, 64px); display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
