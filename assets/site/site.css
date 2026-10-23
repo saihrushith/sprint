@@ -287,7 +287,8 @@ svg { width: 1em; height: 1em; flex: none; }
 @keyframes float { 50% { transform: translateY(-8px) rotate(-3deg); } }
 .about__body { display: grid; gap: 16px; margin: 24px 0 22px; max-width: 600px; font-size: 17.5px; color: #000; }
 .about__body strong { color: var(--blue); }
-.about__tag { max-width: 600px; padding-left: 16px; border-left: 3px solid var(--red); font: 800 19px/1.35 var(--f-d); font-stretch: 104%; color: var(--blue); }
+.about__tag { max-width: 600px; font: 800 19px/1.35 var(--f-d); font-stretch: 104%; color: var(--blue); }
+.about__tag::before { content: ""; display: block; width: 36px; height: 3px; margin-bottom: 12px; border-radius: 2px; background: var(--red); }
 
 /* ---------- Commitment ---------- */
 .commit { background: var(--blue-900); color: #fff; }
