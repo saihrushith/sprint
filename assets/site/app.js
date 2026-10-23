@@ -13,6 +13,17 @@
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
   var clamp = function (v, a, b) { return Math.min(b, Math.max(a, v)); };
 
+  /* ---------- Conversion events for Google Tag Manager / Google Ads / Meta Pixel ---------- */
+  window.dataLayer = window.dataLayer || [];
+  function track(name, extra) { var e = { event: name }; for (var k in (extra || {})) e[k] = extra[k]; window.dataLayer.push(e); }
+  document.addEventListener('click', function (ev) {
+    var a = ev.target.closest('a[href]');
+    if (!a) return;
+    var h = a.getAttribute('href');
+    if (h.indexOf('tel:') === 0) track('click_call');
+    else if (h.indexOf('wa.me') > -1) track('click_whatsapp');
+  });
+
   /* ---------- Intro + reveals ---------- */
   // the inline head script drops the hidden-until-revealed state if this file never runs
   window.SO_READY = true;
@@ -160,6 +171,7 @@
       if (!r.ok) throw new Error('send failed');
       ef.classList.add('is-done');
       ef.reset();
+      track('generate_lead', { form_position: 'hero_eligibility' });
     }).catch(function () {
       efErr.textContent = 'Something went wrong — please try again or WhatsApp us at +91 95022 90703.';
     }).then(function () { setLoading(btn, false); });
@@ -189,6 +201,7 @@
       }
       cf.classList.add('is-done');
       cf.reset();
+      track('generate_lead', { form_position: 'contact' });
     }).catch(function () {
       cfErr.textContent = "Couldn't reach the server. Please WhatsApp us instead at +91 95022 90703 — we reply fast.";
     }).then(function () { setLoading(btn, false); });
