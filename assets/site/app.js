@@ -111,6 +111,62 @@
       setTimeout(function () { $('#elig-form input[name="name"]').focus({ preventScroll: true }); }, 700);
     });
   });
+  /* ---------- Slot watch: the next three months, real dates, random "open" days ---------- */
+  (function initSlotWatch() {
+    var box = $('#lcal');
+    if (!box) return;
+    var host = $('.lcal__months', box), state = $('.lcal__state', box);
+    var DAY = 86400000, today = new Date(); today.setHours(0, 0, 0, 0);
+    var end = new Date(today.getFullYear(), today.getMonth() + 3, 0);   // last day of the third month
+    var cells = [], valid = [], months = [];
+    for (var m = 0; m < 3; m++) {
+      var first = new Date(today.getFullYear(), today.getMonth() + m, 1);
+      var wrap = document.createElement('div'); wrap.className = 'lcal__m';
+      var h = document.createElement('h4'); h.textContent = first.toLocaleDateString('en-IN', { month: 'short', year: '2-digit' });
+      var g = document.createElement('div'); g.className = 'lcal__g';
+      var pad = (first.getDay() + 6) % 7;                 // weeks start on Monday
+      for (var p0 = 0; p0 < pad; p0++) { var padEl = document.createElement('i'); padEl.className = 'pad'; g.appendChild(padEl); }
+      var dim = new Date(first.getFullYear(), first.getMonth() + 1, 0).getDate();
+      for (var d = 1; d <= dim; d++) {
+        var date = new Date(first.getFullYear(), first.getMonth(), d), el = document.createElement('i');
+        var inRange = date > today && date <= end;
+        if (!inRange) el.className = 'off';
+        g.appendChild(el);
+        var rec = { el: el, date: date };
+        if (inRange) { cells.push(rec); if (date.getDay() >= 1 && date.getDay() <= 5) valid.push(rec); }
+      }
+      wrap.appendChild(h); wrap.appendChild(g); host.appendChild(wrap);
+    }
+    var visible = true, timers = [];
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (en) { visible = en[0].isIntersecting; }).observe(box);
+    function later(fn, ms) { timers.push(setTimeout(fn, ms)); }
+    function clear() { timers.forEach(clearTimeout); timers = []; }
+    function reset() { cells.forEach(function (c) { c.el.classList.remove('scan', 'hit'); }); state.classList.remove('found'); state.textContent = '\u25CF Scanning'; }
+    function pick() {
+      var pool = valid.slice(), out = [], n = 4 + Math.floor(Math.random() * 3);
+      while (out.length < n && pool.length) out.push(pool.splice(Math.floor(Math.random() * pool.length), 1)[0]);
+      return out.sort(function (a, b) { return a.date - b.date; });
+    }
+    function show(hits) {
+      hits.forEach(function (c) { c.el.classList.add('hit'); });
+      state.classList.add('found');
+      state.textContent = '\u25CF Slot found: ' + hits[0].date.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' });
+    }
+    if (reduced) { show(pick()); return; }
+    function cycle() {
+      if (!visible || document.hidden) { later(cycle, 600); return; }
+      reset();
+      cells.forEach(function (c, i) {                      // sweep across the calendar
+        later(function () { c.el.classList.add('scan'); }, i * 24);
+        later(function () { c.el.classList.remove('scan'); }, i * 24 + 150);
+      });
+      var found = cells.length * 24 + 250;                 // ~2.4s for 90 days
+      later(function () { show(pick()); }, found);
+      later(cycle, found + 3800);
+    }
+    cycle();
+  })();
+
   /* ---------- Pause decorative motion while it is off-screen ---------- */
   var pauseIO = new IntersectionObserver(function (entries) {
     entries.forEach(function (en) { en.target.classList.toggle('is-offscreen', !en.isIntersecting); });
