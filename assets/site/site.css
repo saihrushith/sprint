@@ -580,8 +580,8 @@ svg { width: 1em; height: 1em; flex: none; }
 .lcal--big .lcal__g i.hit { color: #052e16; font-weight: 800; transform: scale(1.18); }
 @media (max-width: 767px) {
   .lcal--big { padding: 16px 14px; }
-  .lcal--big .lcal__months { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 82%; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 6px; }
-  .lcal--big .lcal__m { scroll-snap-align: start; }
+  .lcal--big .lcal__months { grid-template-columns: 1fr; gap: 16px; }
+  .lcal--big .lcal__g i { aspect-ratio: 1.25; }
 }
 
 /* ---------- Benefits: animated icons ---------- */
