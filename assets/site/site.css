@@ -732,3 +732,7 @@ svg { width: 1em; height: 1em; flex: none; }
 @keyframes hrise { to { opacity: 1; transform: none; } }
 @keyframes hshine { to { background-position: -220% 0; } }
 @media (prefers-reduced-motion: reduce) { .hero__title .w, .hero__sub, .hero__stats li, .hero__wa { opacity: 1; transform: none; animation: none; } .hero__title .gold .w { animation: none; } }
+
+/* Hook questions, now inside About just above the tagline */
+.about__hooks { display: grid; gap: 10px; margin: 22px 0 18px; padding: 0; list-style: none; }
+.about__hooks li { padding: 13px 18px; border-radius: 12px; background: var(--blue-900); color: #fff; font: 600 clamp(14.5px, 1.3vw, 16.5px)/1.4 var(--f-d); border-left: 4px solid var(--gold); }
