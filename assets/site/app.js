@@ -143,36 +143,44 @@
       }
       wrap.appendChild(g); host.appendChild(wrap);
     }
-    var visible = true, timers = [];
-    if ('IntersectionObserver' in window) new IntersectionObserver(function (en) { visible = en[0].isIntersecting; }).observe(box);
+    var api = { box: box, cells: cells, valid: valid, state: state, visible: true };
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (en) { api.visible = en[0].isIntersecting; }).observe(box);
+    return api;
+  }
+  // both calendars (hero and the big one) share one sweep and the same open days
+  var cals = [initSlotWatch($('#lcal'), true), initSlotWatch($('#swatch'), true)].filter(Boolean);
+  if (cals.length) (function () {
+    var timers = [];
     function later(fn, ms) { timers.push(setTimeout(fn, ms)); }
-    function reset() { cells.forEach(function (c) { c.el.classList.remove('scan', 'hit'); }); state.classList.remove('found'); state.textContent = '\u25CF Scanning'; }
+    function reset() { cals.forEach(function (c) { c.cells.forEach(function (r) { r.el.classList.remove('scan', 'hit'); }); c.state.classList.remove('found'); c.state.textContent = '● Scanning'; }); }
     function pick() {
-      var pool = valid.slice(), out = [], n = 4 + Math.floor(Math.random() * 3);
+      var pool = cals[0].valid.map(function (r) { return r.date.getTime(); }), out = [], n = 4 + Math.floor(Math.random() * 3);
       while (out.length < n && pool.length) out.push(pool.splice(Math.floor(Math.random() * pool.length), 1)[0]);
-      return out.sort(function (a, b) { return a.date - b.date; });
+      return out.sort(function (a, b) { return a - b; });
     }
-    function show(hits) {
-      hits.forEach(function (c) { c.el.classList.add('hit'); });
-      state.classList.add('found');
-      state.textContent = '\u25CF Slot found: ' + hits[0].date.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' });
+    function show(times) {
+      cals.forEach(function (c) {
+        c.cells.forEach(function (r) { if (times.indexOf(r.date.getTime()) > -1) r.el.classList.add('hit'); });
+        c.state.classList.add('found');
+        c.state.textContent = '● Slot found: ' + new Date(times[0]).toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' });
+      });
     }
     if (reduced) { show(pick()); return; }
     function cycle() {
-      if (!visible || document.hidden) { later(cycle, 600); return; }
+      if (document.hidden || !cals.some(function (c) { return c.visible; })) { later(cycle, 600); return; }
       reset();
-      cells.forEach(function (c, i) {
-        later(function () { c.el.classList.add('scan'); }, i * 24);
-        later(function () { c.el.classList.remove('scan'); }, i * 24 + 150);
+      cals.forEach(function (c) {
+        c.cells.forEach(function (r, i) {
+          later(function () { r.el.classList.add('scan'); }, i * 24);
+          later(function () { r.el.classList.remove('scan'); }, i * 24 + 150);
+        });
       });
-      var found = cells.length * 24 + 250;
+      var found = cals[0].cells.length * 24 + 250;
       later(function () { show(pick()); }, found);
       later(cycle, found + 3800);
     }
     cycle();
-  }
-  initSlotWatch($('#lcal'), false);
-  initSlotWatch($('#swatch'), true);
+  })();
 
   /* ---------- How it works: rail fills as you scroll, steps light up ---------- */
   (function () {
