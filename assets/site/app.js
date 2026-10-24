@@ -231,7 +231,7 @@
       dots.forEach(function (b, k) { b.classList.toggle('is-on', k === i); b.setAttribute('aria-selected', String(k === i)); });
       var t = 250;
       CHATS[i].forEach(function (m) {
-        if (reduced) { add(m[0], m[1], m[2]); return; }
+        add(m[0], m[1], m[2]); return;   // shown as a finished screen, like a screenshot
         if (m[0] === 'in') {
           later(function () { var ty = document.createElement('div'); ty.className = 'wa__typing'; ty.innerHTML = '<i></i><i></i><i></i>'; body.appendChild(ty); }, t);
           t += 1000;

@@ -730,3 +730,6 @@ svg { width: 1em; height: 1em; flex: none; }
 .chats__stick { box-sizing: border-box; padding-top: 76px; }
 @media (max-width: 767px) { .chats__stick { padding-top: 92px; align-items: flex-start; } }
 @media (max-width: 767px) and (max-height: 740px) { .iphone { width: 226px; height: 440px; } .wa__msg { font-size: 12px; } }
+
+.chats__phone { display: grid; justify-items: center; gap: 14px; }
+.chats__tag { padding: 6px 14px; border-radius: 999px; background: #fff; border: 1px solid var(--line); font: 600 12px var(--f-m); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
