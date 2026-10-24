@@ -597,8 +597,6 @@ svg { width: 1em; height: 1em; flex: none; }
 .ben .lhead.is-in ~ .ben__bar, .ben .lhead:has(.is-in) .ben__bar { width: 64px; }
 .ben__grid { margin-top: clamp(32px, 4vw, 56px); display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
 .bcard { position: relative; overflow: hidden; padding: 30px 26px 28px; background: #fff; border: 1px solid var(--line); border-radius: 20px; transition: transform .45s var(--ease), box-shadow .45s var(--ease), border-color .3s; transition-delay: calc(var(--i) * 60ms); }
-.bcard::before { content: ""; position: absolute; left: 0; top: 0; height: 4px; width: 100%; background: linear-gradient(90deg, var(--red), #ff6b8b); transform: scaleX(0); transform-origin: left; transition: transform .9s calc(.25s + var(--i) * .08s) var(--ease); }
-.bcard.is-in::before { transform: scaleX(1); }
 .bcard:hover { transform: translateY(-8px); box-shadow: 0 30px 50px -28px rgba(10, 49, 97, .45); border-color: var(--blue-200); transition-delay: 0s; }
 .bcard__n { position: absolute; right: 18px; top: 8px; font: 900 64px/1 var(--f-d); color: transparent; -webkit-text-stroke: 1.5px var(--blue-100); transition: -webkit-text-stroke-color .4s; }
 .bcard:hover .bcard__n { -webkit-text-stroke-color: var(--red-100); }
