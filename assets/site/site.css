@@ -750,3 +750,4 @@ svg { width: 1em; height: 1em; flex: none; }
 .lcal:not(.lcal--big) .lcal__g i.off { background: rgba(255, 255, 255, .05); color: rgba(255, 255, 255, .3); }
 .lcal:not(.lcal--big) .lcal__g i.today { box-shadow: inset 0 0 0 1.5px #ffd1db; }
 .lcal:not(.lcal--big) .lcal__g i.hit { color: #052e16; font-weight: 800; transform: scale(1.2); }
+.refer--partner { background: #fff; padding-bottom: 0; }
