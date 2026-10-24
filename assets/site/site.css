@@ -506,26 +506,11 @@ svg { width: 1em; height: 1em; flex: none; }
 }
 
 /* ---------- Landing sections (hook strip, benefits, audience, FAQ) ---------- */
-.lcal { display: grid; gap: 7px; max-width: 410px; margin-top: 14px; padding: 10px 14px; border-radius: 16px; background: rgba(6, 31, 63, .6); border: 1px solid rgba(255, 255, 255, .22); }
-.lcal__top { display: flex; align-items: center; justify-content: space-between; gap: 12px; font: 600 12px var(--f-m); letter-spacing: .1em; text-transform: uppercase; color: #eaf1fb; }
- 8% { background: rgba(255, 255, 255, .45); } 16% { background: rgba(255, 255, 255, .13); } }
- 62%, 90% { background: #4ade80; transform: scale(1.12); } }
-.lcal__note { font-size: 11px; color: #dbe6f6; }
-.lcal__state { font-weight: 600; color: #dbe6f6; transition: color .3s; }
-.lcal__state.found { color: #4ade80; }
-.lcal__months { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-.lcal__m h4 { margin: 0 0 4px; font: 600 10px var(--f-m); letter-spacing: .1em; text-transform: uppercase; color: #dbe6f6; }
-.lcal__g { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
-.lcal__g i { aspect-ratio: 1; border-radius: 3px; background: rgba(255, 255, 255, .16); transition: background-color .25s, transform .3s, box-shadow .3s; }
-.lcal__g i.pad { background: transparent; }
-.lcal__g i.off { background: rgba(255, 255, 255, .05); }
-.lcal__g i.scan { background: rgba(255, 255, 255, .6); }
-.lcal__g i.hit { background: #4ade80; transform: scale(1.35); box-shadow: 0 0 0 2px rgba(74, 222, 128, .3); z-index: 1; position: relative; }
 .lstrip { background: var(--blue-900); color: #fff; }
 .lstrip ul { display: grid; grid-template-columns: repeat(3, 1fr); }
 .lstrip li { padding: 18px 20px; font: 700 clamp(15px, 1.4vw, 18px)/1.35 var(--f-d); text-align: center; border-left: 1px solid rgba(255, 255, 255, .28); }
 .lstrip li:first-child { border-left: 0; }
-.lsplit { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 5vw, 80px); align-items: center; }
+.lsplit { display: grid; grid-template-columns: minmax(0, 820px); gap: clamp(28px, 5vw, 80px); align-items: center; }
 .lsplit--flip .lsplit__media { order: 2; }
 .lphoto { position: relative; overflow: hidden; border-radius: 22px; box-shadow: var(--shadow-lg); }
 .lphoto img { width: 100%; height: 100%; aspect-ratio: 4 / 3.4; object-fit: cover; transition: transform 1.2s var(--ease); }
@@ -562,30 +547,12 @@ svg { width: 1em; height: 1em; flex: none; }
   .lstrip ul { grid-template-columns: 1fr; }
   .lstrip li { border-left: 0; border-top: 1px solid rgba(255, 255, 255, .28); padding: 14px 16px; }
   .lstrip li:first-child { border-top: 0; }
-@media (max-width: 767px) { .lcal:not(.lcal--big) { display: none; } }
 @media (max-width: 1024px) { .lgrid { grid-template-columns: 1fr 1fr; } .lsplit { grid-template-columns: 1fr; } .lsplit--flip .lsplit__media { order: 0; } }
 @media (max-width: 767px) { .lgrid, .ldd { grid-template-columns: 1fr; } .lstrip ul { grid-template-columns: 1fr; } .lstrip li { border-left: 0; border-top: 1px solid rgba(255, 255, 255, .28); padding: 14px 16px; } .lstrip li:first-child { border-top: 0; } }
 
 
 /* ---------- Big slot watch (real dates) ---------- */
-.lcal--big { max-width: none; margin: 0; padding: 20px; border-radius: 22px; background: var(--blue-900); box-shadow: var(--shadow-lg); }
-.lcal--big .lcal__top { font-size: 12.5px; }
-.lcal--big .lcal__months { gap: 18px; }
-.lcal--big .lcal__m h4 { margin-bottom: 8px; font-size: 12px; color: #fff; }
-.lcal--big .lcal__w { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 4px; font: 600 10px var(--f-m); text-align: center; color: #9fb3cc; }
-.lcal--big .lcal__g { gap: 4px; }
-.lcal--big .lcal__g i { display: grid; place-items: center; font: 600 11px/1 var(--f-b); font-style: normal; color: #fff; border-radius: 6px; }
-.lcal--big .lcal__g i.off { background: rgba(255, 255, 255, .04); color: rgba(255, 255, 255, .28); }
-.lcal--big .lcal__g i.today { box-shadow: inset 0 0 0 2px #ffd1db; }
-.lcal--big .lcal__g i.hit { color: #052e16; font-weight: 800; transform: scale(1.18); }
 @media (max-width: 767px) {
-  .lcal--big { padding: 16px 14px; }
-  .lcal--big .lcal__months { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
-  .lcal--big .lcal__m h4 { margin-bottom: 6px; font-size: 10px; letter-spacing: .04em; }
-  .lcal--big .lcal__w { gap: 2px; font-size: 7px; }
-  .lcal--big .lcal__g { gap: 2px; }
-  .lcal--big .lcal__g i { aspect-ratio: 1; border-radius: 3px; font-size: 7.5px; letter-spacing: -.02em; }
-  .lcal--big .lcal__g i.hit { transform: scale(1.2); font-weight: 800; }
 }
 
 /* ---------- Benefits: animated icons ---------- */
@@ -729,7 +696,6 @@ svg { width: 1em; height: 1em; flex: none; }
 .foot__brand { display: grid; gap: 18px; justify-items: start; align-content: start; }
 
 .lsplit > * { min-width: 0; }
-.lcal--big { width: 100%; }
 
 .chats__stick { box-sizing: border-box; padding-top: 76px; }
 @media (max-width: 767px) { .chats__stick { padding-top: 92px; align-items: flex-start; } }
@@ -751,6 +717,6 @@ svg { width: 1em; height: 1em; flex: none; }
 .bcard h3, .lcard h3, .how__step h3 { font-weight: 600; font-size: clamp(19px, 1.8vw, 24px); }
 .nav__links a { font: 600 15px var(--f-d); }
 .btn, .hbtn, .hero__submit, .hero__wa { font-family: var(--f-d); font-weight: 700; font-size: 15px; }
-.mono, .lcal__top, .lcal__w { font-family: var(--f-b); font-weight: 600; font-size: 13px; }
+.mono { font-family: var(--f-b); font-weight: 600; font-size: 13px; }
 @media (max-width: 1024px) { .ben__grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 767px) { .ben__grid { grid-template-columns: 1fr; } .hero__title { font-size: clamp(30px, 8.4vw, 38px); } }
