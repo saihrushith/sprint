@@ -584,8 +584,8 @@ svg { width: 1em; height: 1em; flex: none; }
   .lcal--big .lcal__m h4 { margin-bottom: 6px; font-size: 10px; letter-spacing: .04em; }
   .lcal--big .lcal__w { gap: 2px; font-size: 7px; }
   .lcal--big .lcal__g { gap: 2px; }
-  .lcal--big .lcal__g i { aspect-ratio: 1; border-radius: 3px; font-size: 0; }
-  .lcal--big .lcal__g i.hit { transform: scale(1.25); }
+  .lcal--big .lcal__g i { aspect-ratio: 1; border-radius: 3px; font-size: 7.5px; letter-spacing: -.02em; }
+  .lcal--big .lcal__g i.hit { transform: scale(1.2); font-weight: 800; }
 }
 
 /* ---------- Benefits: animated icons ---------- */
