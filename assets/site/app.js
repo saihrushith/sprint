@@ -220,7 +220,8 @@
     var cur = -1, timers = [];
     function later(fn, ms) { timers.push(setTimeout(fn, ms)); }
     function add(kind, text, time) {
-      var d = document.createElement('div'); d.className = 'wa__msg wa__msg--' + kind;
+      // the phone is on our side: our team's messages go out (green, right), the customer's come in (white, left)
+      var d = document.createElement('div'); d.className = 'wa__msg wa__msg--' + (kind === 'in' ? 'out' : 'in');
       d.appendChild(document.createTextNode(text));
       var sm = document.createElement('small'); sm.textContent = time; d.appendChild(sm);
       body.appendChild(d);

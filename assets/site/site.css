@@ -733,3 +733,6 @@ svg { width: 1em; height: 1em; flex: none; }
 
 .chats__phone { display: grid; justify-items: center; gap: 14px; }
 .chats__tag { padding: 6px 14px; border-radius: 999px; background: #fff; border: 1px solid var(--line); font: 600 12px var(--f-m); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+
+.wa__av { display: grid; place-items: center; width: 34px; height: 34px; flex: none; border-radius: 50%; background: #b8c4cc; }
+.wa__av svg { width: 22px; height: 22px; }
