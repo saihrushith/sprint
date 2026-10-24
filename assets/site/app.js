@@ -198,24 +198,24 @@
     var track = $('#chatsTrack'), body = $('#waBody'), dots = $$('#chatDots button');
     if (!track || !body) return;
     var CHATS = [
-      [['out', 'Hello, mera B1/B2 ka appointment Feb me hai. Bohot late hai yaar \uD83D\uDE13', '9:41'],
-       ['in', 'Hi! Koi tension nahi \uD83D\uDE42 Aap travel date bata dijiye, hum slots pe nazar rakhte hain 24/7', '9:42'],
-       ['out', '15 Jan ko flight hai, cousin ki shaadi hai US me', '9:42'],
-       ['in', 'Samajh gaye \uD83D\uDC4D Jaise hi koi suitable slot dikhega, aapko turant message karenge. Date ki guarantee nahi de sakte, but poori koshish rahegi', '9:43'],
-       ['out', 'thik hai, thnx \uD83D\uDE4F', '9:43'],
-       ['in', 'Welcome! Form me naam aur number daal dijiye, team call karegi', '9:44']],
-      [['out', 'Sir charges kitne honge? koi hidden charges toh nai hai na?', '11:05'],
-       ['in', 'Hamara charge hum pehle hi call pe clearly bata dete hain, koi surprise nahi \uD83D\uDE0A', '11:06'],
-       ['out', 'aur US govt wali visa fee?', '11:06'],
-       ['in', 'Wo alag hai, seedha govt ko pay hoti hai. Us pe hamara control nahi hota', '11:07'],
-       ['out', 'ok. VAC aur interview dono book karoge?', '11:07'],
-       ['in', 'Haan, jab slots available ho tab dono booking me help karte hain, official system se hi \u2705', '11:08'],
-       ['out', 'Cool, call me plz', '11:08']],
-      [['in', 'Good morning! \uD83C\uDF1E Aapke liye ek slot dikh raha hai. Book karna hai?', '8:12'],
-       ['out', 'wow sach me?? haan haan please book kardo', '8:13'],
-       ['in', 'Ho gaya \u2705 Confirmation mail check kijiye. VAC wale din ke documents ki list bhi bhej rahe hain', '8:15'],
-       ['out', 'mail aa gaya! thank u so much \uD83D\uDE0A', '8:16'],
-       ['in', 'Interview ke liye bhi guide bhej denge. All the best! \uD83D\uDE4C', '8:16']]
+      [['out', "Hi, my B1/B2 appointment is in February and that's way too late yaar \uD83D\uDE13", '9:41'],
+       ['in', "Hi! No worries \uD83D\uDE42 Share your travel date and we'll keep watching the slots 24/7", '9:42'],
+       ['out', "I fly on 15 Jan, my cousin's wedding is there", '9:42'],
+       ['in', "Got it \uD83D\uDC4D As soon as a suitable slot shows up, we'll message you right away. We can't promise a date, but we'll try our best", '9:43'],
+       ['out', 'ok thanks, thik hai \uD83D\uDE4F', '9:43'],
+       ['in', 'Welcome! Just fill the form with your name and number, our team will call you', '9:44']],
+      [['out', 'How much will it cost? Any hidden charges?', '11:05'],
+       ['in', 'We tell you our charges clearly on the call itself, no surprises \uD83D\uDE0A', '11:06'],
+       ['out', 'and the US govt visa fee?', '11:06'],
+       ['in', "That's separate, it is paid directly to the govt. We don't control it", '11:07'],
+       ['out', 'ok. Will you book both VAC and interview?', '11:07'],
+       ['in', 'Yes, whenever slots are open we help with both bookings, through the official system only \u2705', '11:08'],
+       ['out', 'Great, please call me once', '11:08']],
+      [['in', 'Good morning! \uD83C\uDF1E We found a slot for you. Want us to book it?', '8:12'],
+       ['out', 'Really?? yes yes please book it asap', '8:13'],
+       ['in', "Done \u2705 Please check your email for the confirmation. We're also sending the VAC day document list", '8:15'],
+       ['out', 'got the mail! thank u so much \uD83D\uDE0A', '8:16'],
+       ['in', "We'll send the interview guide too. All the best! \uD83D\uDE4C", '8:16']]
     ];
     var cur = -1, timers = [];
     function later(fn, ms) { timers.push(setTimeout(fn, ms)); }

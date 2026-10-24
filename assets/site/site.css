@@ -129,7 +129,7 @@ svg { width: 1em; height: 1em; flex: none; }
 .menu__foot { margin-top: 28px; display: grid; gap: 8px; font-weight: 600; color: var(--blue); }
 
 /* ---------- Section scaffolding ---------- */
-.sec { padding: clamp(88px, 10vw, 140px) 0; }
+.sec { padding: clamp(44px, 5vw, 72px) 0; }
 .eyebrow { display: flex; align-items: center; gap: 12px; font: 600 12px/1.4 var(--f-m); letter-spacing: .16em; text-transform: uppercase; color: var(--red); }
 .eyebrow::before { content: ""; width: 28px; height: 2px; background: currentColor; }
 .eyebrow--light { color: #ff9eb4; }
@@ -349,7 +349,7 @@ svg { width: 1em; height: 1em; flex: none; }
 .flag { width: 100%; height: auto; filter: drop-shadow(0 30px 40px rgba(0, 0, 0, .35)); }
 
 /* ---------- Money-back band ---------- */
-.gband { padding: clamp(40px, 5vw, 72px) 0 0; background: #fff; }
+.gband { padding: clamp(28px, 3.5vw, 48px) 0 0; background: #fff; }
 .gband__card { display: flex; align-items: center; gap: clamp(24px, 4vw, 56px); padding: clamp(28px, 4vw, 48px); border-radius: 22px; background: var(--blue-900); color: #fff; }
 .seal { flex: none; width: clamp(130px, 14vw, 170px); height: auto; color: #ff9eb4; }
 .seal__text { transform-origin: 80px 80px; animation: ring-orbit 24s linear infinite; }
@@ -393,16 +393,16 @@ svg { width: 1em; height: 1em; flex: none; }
 .cform .form-err { margin-top: 12px; }
 
 /* ---------- Closing banner + referral ---------- */
-.cta2 { padding: clamp(56px, 7vw, 96px) 0; background: var(--blue); color: #fff; text-align: center; }
+.cta2 { padding: clamp(40px, 5vw, 64px) 0; background: var(--blue); color: #fff; text-align: center; }
 .cta2 h2 { max-width: 760px; margin: 0 auto 28px; font: 900 clamp(30px, 4.2vw, 54px)/1.1 var(--f-d); font-stretch: 106%; letter-spacing: -.02em; text-wrap: balance; }
 .cta2 .ctas { justify-content: center; }
-.refer { padding: clamp(40px, 5vw, 64px) 0; background: var(--blue-50); }
+.refer { padding: clamp(28px, 3.5vw, 44px) 0; background: var(--blue-50); }
 .refer__card { max-width: 860px; margin: 0 auto; padding: clamp(24px, 3vw, 40px); text-align: center; border-radius: 18px; background: #fff; border: 1px solid var(--blue-200); }
 .refer__card h2 { font: 800 clamp(22px, 2.4vw, 28px)/1.2 var(--f-d); color: var(--blue); }
 .refer__card p { max-width: 600px; margin: 10px auto 20px; color: #000; }
 
 /* ---------- Footer ---------- */
-.foot { position: relative; background: var(--blue-950); color: #c9d6e8; padding-top: clamp(64px, 8vw, 96px); overflow: hidden; }
+.foot { position: relative; background: var(--blue-950); color: #c9d6e8; padding-top: clamp(40px, 5vw, 64px); overflow: hidden; }
 .foot__grid { display: grid; grid-template-columns: 1.3fr .7fr .9fr 1.1fr; gap: 44px; padding-bottom: 48px; border-bottom: 1px solid rgba(255, 255, 255, .12); }
 .foot__brand p { margin: 22px 0; max-width: 360px; font-size: 15.5px; }
 .foot__mail { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; color: #fff; }
@@ -658,7 +658,7 @@ svg { width: 1em; height: 1em; flex: none; }
 
 /* ---------- Sample chats on an iPhone ---------- */
 .chats { background: linear-gradient(180deg, #fff, var(--blue-50)); border-top: 1px solid var(--line); }
-.chats__track { position: relative; height: 270vh; }
+.chats__track { position: relative; height: 210vh; }
 .chats__stick { position: sticky; top: 0; height: 100vh; min-height: 640px; display: flex; align-items: center; overflow: hidden; }
 .chats__grid { display: grid; grid-template-columns: 1fr auto; gap: clamp(32px, 6vw, 96px); align-items: center; }
 .chats__copy { max-width: 560px; }
@@ -703,7 +703,7 @@ svg { width: 1em; height: 1em; flex: none; }
 .wa__mic { width: 14px; height: 20px; margin: 0 7px; border-radius: 8px; background: #0a7a52; }
 @media (max-width: 1024px) { .chats__grid { grid-template-columns: 1fr; justify-items: center; text-align: center; gap: 18px; } .chats__copy { max-width: 640px; } .chats__dots { grid-auto-flow: column; justify-content: center; } .chats__dots button { padding: 9px 12px; font-size: 13.5px; } .chats__dots button.is-on { transform: none; } .chats__dots button::before { display: none; } }
 @media (max-width: 767px) {
-  .chats__track { height: 250vh; }
+  .chats__track { height: 200vh; }
   .chats__stick { min-height: 0; align-items: flex-start; padding-top: 14px; }
   .chats__copy .eyebrow, .chats__lead, .chats__cta { display: none; }
   .chats__copy .h2 { margin: 0 0 10px; font-size: 22px; }
