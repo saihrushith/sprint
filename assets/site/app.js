@@ -217,6 +217,7 @@
        ['out', 'got the mail! thank u so much \uD83D\uDE0A', '8:16'],
        ['in', "We'll send the interview guide too. All the best! \uD83D\uDE4C", '8:16']]
     ];
+    var NAMES = ['Durga Prasad', 'Annie', 'Rahul'], nameEl = $('#waName'), avEl = $('#waAv');
     var cur = -1, timers = [];
     function later(fn, ms) { timers.push(setTimeout(fn, ms)); }
     function add(kind, text, time) {
@@ -229,6 +230,7 @@
     function play(i) {
       if (i === cur) return;
       cur = i; timers.forEach(clearTimeout); timers = []; body.innerHTML = '';
+      nameEl.textContent = NAMES[i]; avEl.textContent = NAMES[i].charAt(0);
       dots.forEach(function (b, k) { b.classList.toggle('is-on', k === i); b.setAttribute('aria-selected', String(k === i)); });
       var t = 250;
       CHATS[i].forEach(function (m) {
