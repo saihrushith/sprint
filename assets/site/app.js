@@ -111,6 +111,22 @@
       setTimeout(function () { $('#elig-form input[name="name"]').focus({ preventScroll: true }); }, 700);
     });
   });
+  /* ---------- Hero stats count up ---------- */
+  (function () {
+    if (reduced) return;
+    $$('.hero__stats [data-count]').forEach(function (el, k) {
+      var to = +el.dataset.count, suf = el.dataset.suffix || '', t0 = null;
+      el.textContent = '0' + suf;
+      function step(t) {
+        if (t0 === null) t0 = t;
+        var p = clamp((t - t0) / 1400, 0, 1), e = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(to * e) + suf;
+        if (p < 1) requestAnimationFrame(step);
+      }
+      setTimeout(function () { requestAnimationFrame(step); }, 1100 + k * 100);
+    });
+  })();
+
   /* ---------- How it works: rail fills as you scroll, steps light up ---------- */
   (function () {
     var list = $('#howlist');
