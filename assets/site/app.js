@@ -257,7 +257,10 @@
     e.preventDefault();
     efErr.textContent = '';
     var bad = markInvalid(ef), fd = new FormData(ef);
+    var noService = !fd.get('service');
+    $('.hq', ef).classList.toggle('is-missing', noService);
     if (bad) { bad.focus(); return; }
+    if (noService) { efErr.textContent = 'Please choose a service.'; return; }
     if (fd.get('website')) { ef.classList.add('is-done'); return; }   // honeypot: bots fill the hidden field
     var btn = $('button[type="submit"]', ef);
     setLoading(btn, true);
@@ -265,7 +268,7 @@
       _subject: 'Call request — ' + fd.get('name'),
       _template: 'table', _captcha: 'false',
       Name: fd.get('name'), Email: fd.get('email'), Phone: fd.get('phone'),
-      'First preferred location': fd.get('city'),
+      Service: fd.get('service'),
       'Rough travel period': fd.get('travel') || '-',
       Source: 'Hero request-a-call form'
     }).then(function (r) {

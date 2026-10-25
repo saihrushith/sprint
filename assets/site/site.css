@@ -746,3 +746,5 @@ svg { width: 1em; height: 1em; flex: none; }
 .hg .opt { font-weight: 400; color: #5b6778; }
 .hg.is-invalid select { border-color: #ee1b24; }
 .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.hseg--stack { grid-template-columns: 1fr; }
+.hseg--stack span { text-align: left; padding: 10px 14px; }
