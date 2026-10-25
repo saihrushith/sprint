@@ -257,10 +257,7 @@
     e.preventDefault();
     efErr.textContent = '';
     var bad = markInvalid(ef), fd = new FormData(ef);
-    var noService = !fd.get('service');
-    $('.hq', ef).classList.toggle('is-missing', noService);
     if (bad) { bad.focus(); return; }
-    if (noService) { efErr.textContent = 'Please choose a service.'; return; }
     if (fd.get('website')) { ef.classList.add('is-done'); return; }   // honeypot: bots fill the hidden field
     var btn = $('button[type="submit"]', ef);
     setLoading(btn, true);
