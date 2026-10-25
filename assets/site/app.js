@@ -161,12 +161,12 @@
        ['in', 'We tell you our charges clearly on the call itself, no surprises \uD83D\uDE0A', '11:06'],
        ['out', 'and the US govt visa fee?', '11:06'],
        ['in', "That's separate, it is paid directly to the govt. We don't control it", '11:07'],
-       ['out', 'ok. Will you book both VAC and interview?', '11:07'],
+       ['out', 'ok. Will you book both OFC and interview?', '11:07'],
        ['in', 'Yes, whenever slots are open we help with both bookings, through the official system only \u2705', '11:08'],
        ['out', 'Great, please call me once', '11:08']],
       [['in', 'Good morning! \uD83C\uDF1E We found a slot for you. Want us to book it?', '8:12'],
        ['out', 'Really?? yes yes please book it asap', '8:13'],
-       ['in', "Done \u2705 Please check your email for the confirmation. We're also sending the VAC day document list", '8:15'],
+       ['in', "Done \u2705 Please check your email for the confirmation. We're also sending the OFC day document list", '8:15'],
        ['out', 'got the mail! thank u so much \uD83D\uDE0A', '8:16'],
        ['in', "We'll send the interview guide too. All the best! \uD83D\uDE4C", '8:16']]
     ];
