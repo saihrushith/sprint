@@ -257,20 +257,17 @@
     e.preventDefault();
     efErr.textContent = '';
     var bad = markInvalid(ef), fd = new FormData(ef);
-    var missing = ['passport', 'fee', 'started'].filter(function (k) { return !fd.get(k); });
-    $$('.hq', ef).forEach(function (q) { q.classList.toggle('is-missing', missing.indexOf($('input', q).name) > -1); });
     if (bad) { bad.focus(); return; }
-    if (missing.length) { efErr.textContent = 'Please answer all 3 questions to check your eligibility.'; return; }
+    if (fd.get('website')) { ef.classList.add('is-done'); return; }   // honeypot: bots fill the hidden field
     var btn = $('button[type="submit"]', ef);
     setLoading(btn, true);
     post({
-      _subject: 'Eligibility check — ' + fd.get('name'),
+      _subject: 'Call request — ' + fd.get('name'),
       _template: 'table', _captcha: 'false',
-      Name: fd.get('name'), Phone: fd.get('phone'), Email: fd.get('email'),
-      'Valid passport to travel to the USA?': fd.get('passport'),
-      'Visa fee paid on US Govt website?': fd.get('fee'),
-      'Have you started your visa process?': fd.get('started'),
-      Source: 'Hero eligibility form'
+      Name: fd.get('name'), Email: fd.get('email'), Phone: fd.get('phone'),
+      'First preferred location': fd.get('city'),
+      'Rough travel period': fd.get('travel') || '-',
+      Source: 'Hero request-a-call form'
     }).then(function (r) {
       if (!r.ok) throw new Error('send failed');
       ef.classList.add('is-done');
