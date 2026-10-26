@@ -15,7 +15,7 @@
 
   /* ---------- Conversion events for Google Tag Manager / Google Ads / Meta Pixel ---------- */
   window.dataLayer = window.dataLayer || [];
-  function track(name, extra) { var e = { event: name }; for (var k in (extra || {})) e[k] = extra[k]; window.dataLayer.push(e); if (window.gtag) window.gtag('event', name, extra || {}); }
+  function track(name, extra) { var e = { event: name }; for (var k in (extra || {})) e[k] = extra[k]; window.dataLayer.push(e); }
   document.addEventListener('click', function (ev) {
     var a = ev.target.closest('a[href]');
     if (!a) return;
