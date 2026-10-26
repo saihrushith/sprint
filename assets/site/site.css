@@ -7,10 +7,10 @@
 
 :root {
   --blue: #21409a;
-  --blue-900: #1a3585;
-  --blue-950: #14286b;
-  --blue-700: #2f52b5;
-  --blue-500: #4a6bc4;
+  --blue-900: #21409a;
+  --blue-950: #21409a;
+  --blue-700: #21409a;
+  --blue-500: #21409a;
   --blue-200: #c9d6e8;
   --blue-100: #e6edf7;
   --blue-50: #f3f6fb;
@@ -142,7 +142,7 @@ svg { width: 1em; height: 1em; flex: none; }
 
 /* ---------- HERO (split callback layout) ---------- */
 .hero { position: relative; padding: 36px 0 56px; overflow: hidden; color: #fff; font-family: "Open Sans", "Segoe UI", system-ui, sans-serif;
-  background-color: #21409a; background-image: linear-gradient(135deg, #101f55 0, #21409a 70%, #2f52b5 100%); }
+  background-color: #21409a; background-image: linear-gradient(135deg, #21409a 0, #21409a 70%, #21409a 100%); }
 .hero__bg { position: absolute; inset: 0; pointer-events: none;
   background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23fff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/svg%3E"); }
 .hero__wrap { position: relative; max-width: 1440px; margin: 0 auto; padding: 0 24px; }
@@ -515,7 +515,7 @@ svg { width: 1em; height: 1em; flex: none; }
 .lphoto { position: relative; overflow: hidden; border-radius: 22px; box-shadow: var(--shadow-lg); }
 .lphoto img { width: 100%; height: 100%; aspect-ratio: 4 / 3.4; object-fit: cover; transition: transform 1.2s var(--ease); }
 .lphoto:hover img { transform: scale(1.04); }
-.lphoto figcaption { position: absolute; left: 14px; bottom: 14px; padding: 7px 12px; border-radius: 8px; background: rgba(24, 46, 115, .86); color: #fff; font: 600 13px var(--f-b); }
+.lphoto figcaption { position: absolute; left: 14px; bottom: 14px; padding: 7px 12px; border-radius: 8px; background: rgba(33, 64, 154, .86); color: #fff; font: 600 13px var(--f-b); }
 .lcopy p { margin-top: 14px; font-size: 18px; color: #000; }
 .lcopy .ctas { margin-top: 24px; }
 .lgrid { margin-top: clamp(30px, 4vw, 52px); display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
@@ -746,3 +746,14 @@ svg { width: 1em; height: 1em; flex: none; }
 .hg .opt { font-weight: 400; color: #5b6778; }
 .hg.is-invalid select { border-color: #ee1b24; }
 .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+/* Service choice: two option buttons side by side */
+.svc { clear: both; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.svc label { position: relative; display: block; cursor: pointer; }
+.svc input { position: absolute; top: 12px; left: 12px; width: 16px; height: 16px; margin: 0; accent-color: #21409a; cursor: pointer; }
+.svc__box { display: block; height: 100%; padding: 10px 10px 10px 36px; border: 2px solid #e5e7eb; border-radius: 10px; background: #fff; transition: border-color .2s, background-color .2s; }
+.svc__box b { display: block; font: 700 13.5px/1.35 "Open Sans", sans-serif; color: #1e2a3a; }
+.svc__box small { display: block; margin-top: 3px; font: 400 12px/1.4 "Open Sans", sans-serif; color: #5b6778; }
+.svc input:checked + .svc__box { border-color: #21409a; background: #eef2fb; }
+.svc input:focus-visible + .svc__box { outline: 3px solid rgba(33, 64, 154, .35); outline-offset: 2px; }
+.hq.is-missing .svc__box { border-color: #ee1b24; }
